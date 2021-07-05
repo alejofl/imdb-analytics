@@ -1,3 +1,5 @@
+#include "./query4ADT.h"
+
 typedef struct recording
 {
     String title;
@@ -7,7 +9,7 @@ typedef struct recording
     struct recording *next;
 } Recording;
 
-struct query2CDT
+typedef struct query4CDT
 {
     Recording *movies;
-};
+} query4CDT;

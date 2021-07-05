@@ -1,18 +1,20 @@
+#include "./query2ADT.h"
+
 typedef struct genre
 {
     String genre;
     size_t count;
-    struct genre *next;
+    struct genre * next;
 } Genre;
 
 typedef struct year
 {
     size_t year;
-    Genre *genre;
-    struct year *next;
+    Genre * genre;
+    struct year * next;
 } Year;
 
-struct query2CDT
+typedef struct query2CDT
 {
-    Year *years;
-};
+    Year * years;
+} query2CDT;

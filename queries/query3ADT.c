@@ -1,3 +1,5 @@
+#include "./query3ADT.h"
+
 typedef struct Recording
 {
     String title;
@@ -10,10 +12,10 @@ typedef struct year
     size_t year;
     Recording maxMovie;
     Recording maxSerie;
-    struct year *next;
+    struct year * next;
 } Year;
 
-struct query2CDT
+typedef struct query3CDT
 {
-    Year *years;
-};
+    Year * years;
+} query3CDT;
