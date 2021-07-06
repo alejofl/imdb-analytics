@@ -3,6 +3,7 @@
 #define __QUERIES_H__
 
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -17,7 +18,7 @@
 #include <assert.h>
 #endif
 
-typedef char *String;
+typedef char * String;
 
 // add corresponding error codes when time is correct
 typedef enum
@@ -43,8 +44,8 @@ typedef struct
     String titleType;
     String primaryTitle;
     size_t startYear;
-    size_t endYear; // 0 es falta de anio de finalizacion
-    String *genres;
+    size_t endYear;         // 0 si no tiene año de finalizacion
+    String * genres;
     float averageRating;
     size_t numVotes;
     size_t runtimeMinutes;
