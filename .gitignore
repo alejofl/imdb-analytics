@@ -2,3 +2,6 @@ cmake*
 CMakeLists.txt
 .idea
 .vscode
+test
+main
+*.csv
