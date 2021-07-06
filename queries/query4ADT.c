@@ -1,5 +1,8 @@
 #include "./query4ADT.h"
 
+#define MAX 100
+#define CUTOFF 100000
+
 // organized from lowest to highest, since there is more chance of it being lower rating than higher
 // when it reaches 100 movies, all the movies that are lower rating are not added
 // if it has to be added, removes the lowest rating
@@ -18,9 +21,14 @@ typedef struct query4CDT
     size_t count;
 } query4CDT;
 
-query4ADT newQuery4(void)
+query4ADT newQuery4(ERROR_CODE *err)
 {
-    return calloc(1, sizeof(query4CDT));
+    query4ADT aux = calloc(1, sizeof(query4CDT));
+    if (errno == ENOMEM)
+    {
+        *err = MEM_ERROR;
+    }
+    return aux;
 }
 
 // it receives a pointer to the movie object so its more efficient while passing arguments between functions
@@ -30,7 +38,7 @@ static Recording *insertRecQ4(Recording *rec, Movie *movie, ERROR_CODE *err)
     if (rec == NULL || c > 0 || (c == 0 && rec->votes > movie->numVotes))
     {
         Recording *new = malloc(sizeof(Recording));
-        if (new == NULL)
+        if (errno == ENOMEM)
         {
             *err = MEM_ERROR;
             return rec;
@@ -52,32 +60,64 @@ static void freeRecording(Recording *rec)
     free(rec);
 }
 
-ERROR_CODE insertQ4(query4ADT q, Movie *m)
+// receives a movie struct and inserts it in the query ranking the top 100 highest rankings
+// when it gets to 100, it removes the last one from the ranking
+void insertQ4(query4ADT q, Movie *m, ERROR_CODE *err)
 {
-    if (strcasecmp(m->titleType, "movie") != 0)
+    if (strcasecmp(m->titleType, "movie") != 0 || m->numVotes < CUTOFF)
         return;
 
-    ERROR_CODE err = NO_ERROR;
-    if (q->count == 100)
+    if (q->count == MAX)
     {
         int c = q->movies->rating - m->averageRating;
         if (c > 0 || (c == 0 && q->movies->votes > m->numVotes)) // dont add if its lower than the lowest movie
-        {
-            return NO_ERROR;
-        }
+            return;
         Recording *aux = q->movies;
         q->movies = aux->next;
         freeRecording(aux); // because the rating of movie is higher, remove the first movie
     }
 
-    q->movies = insertRecQ4(q->movies, m, &err);
-    if (err == MEM_ERROR)
-        return MEM_ERROR;
-    if (q->count < 100)
+    q->movies = insertRecQ4(q->movies, m, err);
+    if (*err == MEM_ERROR)
+        return;
+    if (q->count < MAX)
         q->count += 1;
-    return NO_ERROR;
 }
 
-DataQ4 *finalVecQ4(query4ADT q); // Devuelve un vector de estructuras de DataQ4
+DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err)
+{
+    DataQ4 *vec = malloc(sizeof(DataQ4) * q->count);
+    if (errno == ENOMEM)
+    {
+        *err = MEM_ERROR;
+        return NULL;
+    }
 
-void freeQueryQ4(query4ADT q);
+    Recording *curr = q->movies;
+    for (int i = q->count - 1; i >= 0; i -= 1)
+    {
+        vec[i] = (DataQ4){curr->title, curr->votes, curr->rating, curr->startYear};
+        curr = curr->next;
+    }
+    return vec;
+}
+
+static void freeRecQ4(Recording *rec)
+{
+    if (rec != NULL)
+    {
+        freeRecQ4(rec->next);
+        freeRecording(rec);
+    }
+}
+
+void freeQueryQ4(query4ADT q)
+{
+    freeRecQ4(q->movies);
+    free(q);
+}
+
+size_t topCount(const query4ADT q)
+{
+    return q->count;
+}

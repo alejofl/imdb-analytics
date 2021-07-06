@@ -14,12 +14,40 @@ typedef struct dataQ4
 
 typedef struct query4CDT *query4ADT;
 
-query4ADT newQuery4(void);
+/* 
+    Crea el ADT de las top 100 mejores peliculas
+    @param err Parametro de salida del codigo de error
+    @return query4ADT
+*/
+query4ADT newQuery4(ERROR_CODE *err);
 
-ERROR_CODE insertQ4(query4ADT q, Movie *m); // Recibe un pointer a la estructura movie para ser mas eficiente. Devuelve 1 si se realizo la operacion correctamente y 0 si hubo error.
+/*
+    Inserta una pelicula en el ADT. Solo mantiene las top 100
+    @param q la instancia del query4
+    @param m pointer a la estructura de una pelicula/serie
+    @param err Parametro de salida del codigo de error
+*/
+void insertQ4(query4ADT q, Movie *m, ERROR_CODE *err);
 
-DataQ4 *finalVecQ4(query4ADT q); // Devuelve un vector de estructuras de DataQ4
+/*
+    Devuelve un vector de las top 100 mejores peliculas
+    @param q la instancia de query4
+    @param err parametro de salida del codigo de error
+    @return DataQ4* el tamaño de DataQ4 esta dada por topCount
+*/
+DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err);
 
+/*
+    Limpia el query4
+    @param q la instancia de query4
+*/
 void freeQueryQ4(query4ADT q);
+
+/*
+    Obtiene la cantidad de peliculas en el top
+    @param q la instancia de query4
+    @return size_t cantidad de peliculas en query4 guardadas
+*/
+size_t topCount(const query4ADT q);
 
 #endif
