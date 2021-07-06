@@ -1,5 +1,10 @@
 #include <string.h>
-typedef char *String;
+
+#ifndef __QUERIES_H__
+
+#define __QUERIES_H__
+
+typedef char * String;
 
 /*
 titleType: si corresponde a una película, serie de televisión, etc
@@ -11,19 +16,16 @@ averageRating: un número entre 0 y 10, con un decimal
 numVotes: cantidad de votos que obtuvo
 runtimeMinutes: número entero, indica la duración en minutos. 
 */
-typedef struct query1CDT *query1ADT;
-typedef struct query2CDT *query2ADT;
-typedef struct query3CDT *query3ADT;
-typedef struct query4CDT *query4ADT;
-
 typedef struct
 {
     String titleType;
     String primaryTitle;
     size_t startYear;
-    size_t endYear; // 0 es falta de ano de finalizacion
+    size_t endYear; // 0 es falta de anio de finalizacion
     String *genres;
     float averageRating;
     size_t numVotes;
     size_t runtimeMinutes;
 } Movie;
+
+#endif

@@ -1,5 +1,9 @@
 #include "../queries.h"
 
+#ifndef __Q1ADT_H__
+
+#define __Q1ADT_H__
+
 typedef struct dataQ1
 {
     size_t year;
@@ -16,3 +20,5 @@ void insertQ1(query1ADT q, Movie m);
 DataQ1 * finalVecQ1(query1ADT q);
 
 void freeQueryQ1(query1ADT q);
+
+#endif

@@ -1,5 +1,9 @@
 #include "../queries.h"
 
+#ifndef __Q4ADT_H__
+
+#define __Q4ADT_H__
+
 typedef struct dataQ4{
     String title;
     size_t votes;
@@ -16,4 +20,5 @@ void insertQ4(query4ADT q, Movie m);
 DataQ4 * finalVecQ4(query4ADT q);       // Devuelve un vector de estructuras de DataQ4
 
 void freeQueryQ4(query4ADT q);
-    
+
+#endif

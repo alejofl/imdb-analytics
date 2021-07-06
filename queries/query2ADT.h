@@ -1,5 +1,9 @@
 #include "../queries.h"
 
+#ifndef __Q2ADT_H__
+
+#define __Q2ADT_H__
+
 typedef struct dataQ2
 {
     size_t year;
@@ -16,3 +20,5 @@ void insertQ2(query2ADT q, Movie m);
 DataQ2 * finalVecQ2(query2ADT q);       // Devuelve un vector de estructuras de DataQ2
 
 void freeQueryQ2(query2ADT q);
+
+#endif
