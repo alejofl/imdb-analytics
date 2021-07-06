@@ -110,3 +110,63 @@ void insertQ2(query2ADT q, Movie * m, ERROR_CODE *error){
     //Aumento la cantidad de generos totales
     q->cantGenres += addedGenre;
 }
+
+DataQ2 * finalVecQ2(const query2ADT q, ERROR_CODE * error){
+    //le asigno la cantidad de memoria que va a ocupar el vector final
+    //la cantidad de indices que va a tener va a ser la cantidad de generos totales
+    errno = 0;
+    DataQ2 * final = malloc(sizeof(DataQ2) * q->cantGenres);
+    if (errno == ENOMEM){
+        *error = MEM_ERROR;
+        return NULL;
+    }
+    //Creo un aux para ir recorriendo los años
+    Year * aux = q->years;
+    size_t i = 0;
+    //con el while de afuera recorro los años
+    while( aux != NULL){
+        //auxiliar para ir recorriendo los generos por año
+        Genre * auxG = aux->genre;
+        //con este while recorro los generos
+        while (auxG != NULL){
+            final[i] = (DataQ2) {
+                aux->year,
+                auxG->genre,
+                auxG->count
+            };
+            i++;
+            auxG = auxG->next;
+        }
+        aux = aux->next;
+    }
+}
+
+
+static void freeGenreRec(Genre * firstG){
+    if (firstG == NULL)
+        return;
+    //Libero el string que dice el género
+    free(firstG->genre);
+    //Llamo recursivamente al genero
+    free(firstG->next);
+    //libero el genero
+    free(firstG);
+}
+
+static void freeYearRec(Year * first){
+    if(first == NULL)
+        return;
+    //libero los generos de ese año
+    freeGenreRec(first->genre);
+    //llamo recursivamente al proximo año
+    freeYearRec(first->next);
+    //libero el año
+    free(first);
+}
+
+void freeQueryQ2(query2ADT q){
+    //freeYearRec lo que hace es ir liberando los años
+    freeYearRec(q->years);
+    //libero el tad
+    free(q);
+}

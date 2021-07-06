@@ -17,7 +17,7 @@ query2ADT newQuery2(ERROR_CODE *error);
 
 void insertQ2(query2ADT q, Movie*  m, ERROR_CODE *error);
 
-DataQ2 * finalVecQ2(query2ADT q, ERROR_CODE *error);       // Devuelve un vector de estructuras de DataQ2
+DataQ2 * finalVecQ2(const query2ADT q, ERROR_CODE *error);       // Devuelve un vector de estructuras de DataQ2
 
 void freeQueryQ2(query2ADT q);
 
