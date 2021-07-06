@@ -45,7 +45,7 @@ typedef struct
     String primaryTitle;
     size_t startYear;
     size_t endYear;         // 0 si no tiene año de finalizacion
-    String * genres;
+    String * genres;        // Vector de Strings finalizado con NULL
     float averageRating;
     size_t numVotes;
     size_t runtimeMinutes;

@@ -24,5 +24,5 @@ int main(int argc, char *argv[]) {
         return FILE_ERROR;
     }
 
-    int k = getlines(csv);
+    ERROR_CODE k = getlines(csv);
 }

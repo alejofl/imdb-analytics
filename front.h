@@ -7,6 +7,6 @@
 
 #include "queries.h"
 
-int getlines(FILE * file); // Función usada para parsear el archivo
+ERROR_CODE getlines(FILE * file); // Función usada para parsear el archivo
 
 #endif
