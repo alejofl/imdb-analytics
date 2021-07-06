@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
     }
 
     ERROR_CODE k = getlines(csv);
-    int k = getlines(csv);
     #endif
 
     #ifdef DEBUG
