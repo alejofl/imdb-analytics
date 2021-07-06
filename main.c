@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
 }
 
 void testingQ4() {
-    Entry data = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000000, 10000};
+    Entry data = {"movie", "hola123", 2021, 2022, NULL, 10.1, 1000000, 10000};
     Entry data2 = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000001, 10000};
     ERROR_CODE err = NO_ERROR;
     query4ADT q = newQuery4(&err);
@@ -60,9 +60,11 @@ void testingQ4() {
     size_t top = topCount(q);
     DataQ4* vec = finalVecQ4(q, &err);
 
-    FILE* q4 = fopen("query4.csv", "a");
+    FILE* q4 = fopen("query4.csv", "w");
     for (int i = 0; i < top; i += 1) {
         writeQ4(&vec[i], q4);
     }
     fclose(q4);
+    free(vec);
+    freeQueryQ4(q);
 }

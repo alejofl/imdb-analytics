@@ -38,6 +38,7 @@ static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
     if (rec == NULL || (c = rec->rating - movie->averageRating) > 0 || (c == 0 && rec->votes > movie->numVotes))
     {
         Recording *new = malloc(sizeof(Recording));
+        String copy = copyStr(movie->primaryTitle);
         if (errno == ENOMEM)
         {
             *err = MEM_ERROR;
@@ -46,7 +47,7 @@ static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
         new->next = rec;
         new->rating = movie->averageRating;
         new->startYear = movie->startYear;
-        new->title = copyStr(movie->primaryTitle);
+        new->title = copy;
         new->votes = movie->numVotes;
         return new;
     }

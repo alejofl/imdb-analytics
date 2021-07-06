@@ -77,10 +77,16 @@ ERROR_CODE getlines(FILE * file, Queries * queries) {
                     switch (column) {
                         case 1:
                             recording->titleType = copyStr(token);
+                            if (recording->titleType == NULL) {
+                                return MEM_ERROR;
+                            }
                             column++;
                             break;
                         case 2:
                             recording->primaryTitle = copyStr(token);
+                            if (recording->primaryTitle == NULL) {
+                                return MEM_ERROR;
+                            }
                             column++;
                             break;
                         case 3:

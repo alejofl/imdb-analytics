@@ -13,18 +13,18 @@ String copyStr(const String from)
         if (i % STR_BLOCK == 0)
         {
             dest = realloc(dest, (i + STR_BLOCK) * sizeof(char));
-            // TODO: Cambiar esto a errno
-            if (dest == NULL)
+            if (errno == ENOMEM)
             {
+                free(dest);
                 return NULL;
             }
         }
         dest[i] = from[i];
     }
-    dest = realloc(dest, i * sizeof(char));
-    // TODO: Cambiar esto a errno
-    if (dest == NULL)
+    dest = realloc(dest, (i + 1) * sizeof(char));
+    if (errno == ENOMEM)
     {
+        free(dest);
         return NULL;
     }
     dest[i] = '\0';
