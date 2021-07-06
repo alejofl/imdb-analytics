@@ -12,9 +12,7 @@
 #define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
                         // genres: 200, averageRating: 3, numVotes: 9, runtimeMinutes: 6
 
-// TEST 0 is for production
-#define TEST 1
-#if TEST == 1
+#if DEBUG
 #include <assert.h>
 #endif
 

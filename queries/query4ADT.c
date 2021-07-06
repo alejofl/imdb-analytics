@@ -34,8 +34,8 @@ query4ADT newQuery4(ERROR_CODE *err)
 // it receives a pointer to the movie object so its more efficient while passing arguments between functions
 static Recording *insertRecQ4(Recording *rec, Movie *movie, ERROR_CODE *err)
 {
-    int c = rec->rating - movie->averageRating;
-    if (rec == NULL || c > 0 || (c == 0 && rec->votes > movie->numVotes))
+    int c;
+    if (rec == NULL || (c = rec->rating - movie->averageRating) > 0 || (c == 0 && rec->votes > movie->numVotes))
     {
         Recording *new = malloc(sizeof(Recording));
         if (errno == ENOMEM)
@@ -76,7 +76,6 @@ void insertQ4(query4ADT q, Movie *m, ERROR_CODE *err)
         q->movies = aux->next;
         freeRecording(aux); // because the rating of movie is higher, remove the first movie
     }
-
     q->movies = insertRecQ4(q->movies, m, err);
     if (*err == MEM_ERROR)
         return;
