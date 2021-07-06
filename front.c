@@ -141,3 +141,12 @@ ERROR_CODE getlines(FILE * file) {
     }
     return NO_ERROR;
 }
+
+// use pointers for struct communication between functions
+ERROR_CODE writeQ4(DataQ4* data, FILE *f) {
+    int res = fprintf(f, "%lu;%s;%lu;%.1f\n", data->startYear, data->title, data->votes, data->rating);
+    if (res < 0) {
+        return FILE_ERROR;
+    }
+    return NO_ERROR;
+}

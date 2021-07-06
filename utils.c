@@ -3,8 +3,9 @@
 
 String copyStr(const String from)
 {
-    if (TEST)
+    #ifdef DEBUG
         assert(from != NULL);
+    #endif
     String dest = NULL;
     int i;
     for (i = 0; from[i] != '\0'; i += 1)
