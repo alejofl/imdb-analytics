@@ -4,9 +4,12 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
 
 #define STR_BLOCK 5
+#define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
+                        // genres: 200, averageRating: 3, numVotes: 9, runtimeMinutes: 6
 
 // TEST 0 is for production
 #define TEST 1
@@ -20,7 +23,9 @@ typedef char *String;
 typedef enum
 {
     NO_ERROR = 0,
-    MEM_ERROR = 1
+    MEM_ERROR,
+    ARG_ERROR,
+    FILE_ERROR
 } ERROR_CODE;
 
 /*

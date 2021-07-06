@@ -7,11 +7,12 @@ String copyStr(const String from)
         assert(from != NULL);
     String dest = NULL;
     int i;
-    for (i = 0; from[i] != '\n'; i += 1)
+    for (i = 0; from[i] != '\0'; i += 1)
     {
         if (i % STR_BLOCK == 0)
         {
             dest = malloc((i + STR_BLOCK) * sizeof(char));
+            // TODO: Cambiar esto a errno
             if (dest == NULL)
             {
                 return NULL;
@@ -19,11 +20,12 @@ String copyStr(const String from)
         }
         dest[i] = from[i];
     }
-    dest = realloc(dest, (i + 1) * sizeof(char));
+    dest = realloc(dest, i * sizeof(char));
+    // TODO: Cambiar esto a errno
     if (dest == NULL)
     {
         return NULL;
     }
-    dest[i] = '\n';
+    dest[i] = '\0';
     return dest;
 }
