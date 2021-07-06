@@ -50,7 +50,7 @@ String * makeGenresVector(String s, ERROR_CODE * err) {
     return rta;
 }
 
-ERROR_CODE getlines(FILE * file) {
+ERROR_CODE getlines(FILE * file, Queries * queries) {
     errno = 0;
     char * s = malloc(MAX_LINE);
     if (errno == ENOMEM) {
@@ -121,7 +121,7 @@ ERROR_CODE getlines(FILE * file) {
                                 recording->runtimeMinutes = atol(token);
                             }
                             //TODO falta hacer esta función y despues también hacer lo del MEM_ERROR.
-//                            insertQueries(recording);
+//                            insertQueries(recording, queries);
                             column = 1;
                             break;
                         default:
@@ -139,6 +139,13 @@ ERROR_CODE getlines(FILE * file) {
         }
     }
     return NO_ERROR;
+}
+
+void handleMemoryError(ERROR_CODE k) {
+    if (k == MEM_ERROR) {
+        fprintf(stderr, BHRED "Something's went wrong." HRED " There's not enough memory for this request.\n" reset);
+        exit(MEM_ERROR);
+    }
 }
 
 // use pointers for struct communication between functions

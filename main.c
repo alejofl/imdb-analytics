@@ -27,7 +27,21 @@ int main(int argc, char *argv[]) {
         return FILE_ERROR;
     }
 
-    ERROR_CODE k = getlines(csv);
+    ERROR_CODE k;
+    query1ADT q1 = newQueryQ1(&k);
+    handleMemoryError(k);
+    query2ADT q2 = newQuery2(&k);
+    handleMemoryError(k);
+    query3ADT q3 = newQuery3(&k);
+    handleMemoryError(k);
+    query4ADT q4 = newQuery4(&k);
+    handleMemoryError(k);
+
+    Queries queries = {q1, q2, q3, q4};
+
+    k = getlines(csv, &queries);
+    handleMemoryError(k);
+
     #endif
 
     #ifdef DEBUG

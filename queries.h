@@ -7,6 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include "queries/query1ADT.h"
+#include "queries/query2ADT.h"
+#include "queries/query3ADT.h"
+#include "queries/query4ADT.h"
 
 #define STR_BLOCK 5
 #define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
@@ -17,6 +21,13 @@
 #endif
 
 typedef char * String;
+
+typedef struct {
+    query1ADT q1;
+    query2ADT q2;
+    query3ADT q3;
+    query4ADT q4;
+} Queries;
 
 // add corresponding error codes when time is correct
 typedef enum

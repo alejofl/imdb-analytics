@@ -6,12 +6,14 @@
 #define __FRONT_H__
 
 #include "queries.h"
+#include "colors.h"
 #include "queries/query1ADT.h"
 #include "queries/query2ADT.h"
 #include "queries/query3ADT.h"
 #include "queries/query4ADT.h"
 
-ERROR_CODE getlines(FILE * file); // Función usada para parsear el archivo
+void handleMemoryError(ERROR_CODE k);
+ERROR_CODE getlines(FILE * file, Queries * queries); // Función usada para parsear el archivo
 ERROR_CODE writeQ4(DataQ4* data, FILE *f); // Función usada para escribir el archivo. Abrir con APPEND
 
 #endif
