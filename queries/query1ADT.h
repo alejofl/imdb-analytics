@@ -16,7 +16,7 @@ typedef struct query1CDT * query1ADT;
 // Aclaracion: ERROR_CODE * status sirve para indicar si hubo un error al alojar espacio en el heap
 
 // Creo un nuevo TAD del tipo de query1
-query1ADT newQuery1(ERROR_CODE * status);
+query1ADT newQueryQ1(ERROR_CODE * status);
 
 // Inserta una nueva pelicula o serie al TAD
 void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status);

@@ -16,7 +16,7 @@ typedef struct query1CDT
 } query1CDT;
 
 // Creo un nuevo TAD del tipo de query1
-query1ADT newQuery1(ERROR_CODE * status){
+query1ADT newQueryQ1(ERROR_CODE * status){
     errno = 0;
     // Alojo espacio en el espacio para el TAD
     query1ADT q1 = calloc(1, sizeof(query1CDT));
@@ -97,7 +97,50 @@ void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status){
 }
 
 // Crea el vector con todos los elementos del csv principal ya agregados al TAD
-DataQ1 * finalVecQ1(query1ADT q, ERROR_CODE * status);
+DataQ1 * finalVecQ1(query1ADT q, ERROR_CODE * status){
+    errno = 0;
+    // Creo un vector de los datos a guardar en el archivo query1.csv y la cantidad de elementos es
+    // equivalente a la cantidad de nodos (años) creados en la lista
+    DataQ1 * vec = malloc(q->size * sizeof(DataQ1));
+    // Si no fue capaz de reservar espacio, indico en el flag que hubo un error de memoria y devuelvo NULL
+    if(errno == ENOMEM){
+        *status = MEM_ERROR;
+        return NULL;
+    }
+    // Asigno los datos de los nodos al vector de manera iterativa empezando por el primer elemento de la lista,
+    // o sea, del año más reciente al más viejo
+    Year * aux = q->years;
+    size_t i = 0;
+    while(aux != NULL){
+        // Paso los datos del nodo a su correspondiente posicion en el vector
+        vec[i] = (DataQ1) {
+            .year = aux->year,
+            .movies = aux->movies,
+            .series = aux->series
+        };
+        // Paso a la siguiente posicion del vector y al siguiente nodo de la lista
+        i++;
+        aux = aux->next;
+    }
+    // Si no hubo problema, mando por el flag que todo salio bien y devuelvo el vector
+    *status = NO_ERROR;
+    return vec;
+}
+
+// Libera una lista de tipo Year del heap
+static void freeQueryQ1List(Year * first){
+    // Libero la lista de atras para adelante
+    if(first == NULL){
+        return;
+    }
+    freeQueryQ1List(first->next);
+    free(first);
+}
 
 // Libera los recursos del TAD
-void freeQueryQ1(query1ADT q);
+void freeQueryQ1(query1ADT q){
+    // Libero la lista que contiene los años con su respectiva cantidad de peliculas y series
+    freeQueryQ1List(q->years);
+    // Libero el TAD
+    free(q);
+}
