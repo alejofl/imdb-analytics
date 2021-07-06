@@ -97,7 +97,7 @@ void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status){
 }
 
 // Crea el vector con todos los elementos del csv principal ya agregados al TAD
-DataQ1 * finalVecQ1(query1ADT q, ERROR_CODE * status){
+DataQ1 * finalVecQ1(const query1ADT q, ERROR_CODE * status){
     errno = 0;
     // Creo un vector de los datos a guardar en el archivo query1.csv y la cantidad de elementos es
     // equivalente a la cantidad de nodos (años) creados en la lista
