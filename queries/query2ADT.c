@@ -38,7 +38,7 @@ query2ADT newQuery2(ERROR_CODE *error){
 }
 
 
-static Genre * insertGenreRec(Genre * first, Movie * m, char *addedGenre, ERROR_CODE *error){
+static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_CODE *error){
     //creo una variable c para no hacer el strcasecmp varias veces
     int c;
     //Si estaba vacío o si ya tenía que estar y no está lo agrego
@@ -77,7 +77,7 @@ static Genre * insertGenreRec(Genre * first, Movie * m, char *addedGenre, ERROR_
     return first;
 }
 
-static Year * insertYearRec(Year * year, Movie * m, char *addedGenre, ERROR_CODE *error){
+static Year * insertYearRec(Year * year, Entry * m, char *addedGenre, ERROR_CODE *error){
     if (year == NULL || year->year < m->startYear){
         //pongo el flag para ver si hay 
         errno = 0;
@@ -102,7 +102,7 @@ static Year * insertYearRec(Year * year, Movie * m, char *addedGenre, ERROR_CODE
     return year;
 }
 
-void insertQ2(query2ADT q, Movie * m, ERROR_CODE *error){
+void insertQ2(query2ADT q, Entry * m, ERROR_CODE *error){
     //Me fijo si se hizo un nuevo genero
     char addedGenre = 0;
     //Meto el nuevo año

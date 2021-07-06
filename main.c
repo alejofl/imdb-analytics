@@ -36,8 +36,8 @@ int main(int argc, char *argv[]) {
 }
 
 void testingQ4() {
-    Movie data = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000000, 10000};
-    Movie data2 = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000001, 10000};
+    Entry data = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000000, 10000};
+    Entry data2 = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000001, 10000};
     ERROR_CODE err = NO_ERROR;
     query4ADT q = newQuery4(&err);
 

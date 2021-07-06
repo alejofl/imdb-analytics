@@ -27,7 +27,7 @@ query4ADT newQuery4(ERROR_CODE *err);
     @param m pointer a la estructura de una pelicula/serie
     @param err Parametro de salida del codigo de error
 */
-void insertQ4(query4ADT q, Movie *m, ERROR_CODE *err);
+void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err);
 
 /*
     Devuelve un vector de las top 100 mejores peliculas

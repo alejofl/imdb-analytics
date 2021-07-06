@@ -31,7 +31,7 @@ query1ADT newQueryQ1(ERROR_CODE * status){
 }
 
 // Agrega de manera recursiva una pelicula o serie a su respectivo año
-static Year * insertQ1Rec(Year * first, Movie * m, ERROR_CODE * status, size_t * newYear){
+static Year * insertQ1Rec(Year * first, Entry * m, ERROR_CODE * status, size_t * newYear){
     // Si llegue al final de la lista o si el año de la pelicula o serie es mas reciente al del nodo actual,
     // quiere decir que aun no se agrego nada al año correspondiente a m por lo que tengo que crear el nodo
     // de dicho año
@@ -87,7 +87,7 @@ static Year * insertQ1Rec(Year * first, Movie * m, ERROR_CODE * status, size_t *
 }
 
 // Inserta una nueva pelicula o serie al TAD
-void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status){
+void insertQ1(query1ADT q, Entry * m, ERROR_CODE * status){
     // Creo un flag que me va a indicar si se agrego un nuevo año
     size_t newYear = 0;
     // Luego, llamo a una funcion recursiva para que agregue al contador del año correspondiente a m

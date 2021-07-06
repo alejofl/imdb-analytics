@@ -16,11 +16,11 @@ typedef struct dataQ3{
 
 typedef struct query3CDT * query3ADT;
 
-query3ADT newQuery3(void);
+query3ADT newQuery3(ERROR_CODE * err);
 
-void insertQ3(query3ADT q, Movie m);
+void insertQ3(query3ADT q, Entry * m, ERROR_CODE * err);
 
-DataQ3 * finalVecQ3(query3ADT q);       // Devuelve un vector de estructuras de DataQ3
+DataQ3 * finalVecQ3(query3ADT q, ERROR_CODE * err);       // Devuelve un vector de estructuras de DataQ3
 
 void freeQueryQ3(query3ADT q);
 

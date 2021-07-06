@@ -32,7 +32,7 @@ query4ADT newQuery4(ERROR_CODE *err)
 }
 
 // it receives a pointer to the movie object so its more efficient while passing arguments between functions
-static Recording *insertRecQ4(Recording *rec, Movie *movie, ERROR_CODE *err)
+static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
 {
     int c;
     if (rec == NULL || (c = rec->rating - movie->averageRating) > 0 || (c == 0 && rec->votes > movie->numVotes))
@@ -62,7 +62,7 @@ static void freeRecording(Recording *rec)
 
 // receives a movie struct and inserts it in the query ranking the top 100 highest rankings
 // when it gets to 100, it removes the last one from the ranking
-void insertQ4(query4ADT q, Movie *m, ERROR_CODE *err)
+void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
 {
     if (strcasecmp(m->titleType, "movie") != 0 || m->numVotes < CUTOFF)
         return;

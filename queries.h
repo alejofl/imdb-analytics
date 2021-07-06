@@ -47,7 +47,7 @@ typedef struct
     float averageRating;
     size_t numVotes;
     size_t runtimeMinutes;
-} Movie;
+} Entry;
 
 // please check this function CONSIDER MOVING TO ANOTHER header file
 // if return value is NULL its because malloc and realloc failed

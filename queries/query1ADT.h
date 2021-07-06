@@ -29,7 +29,7 @@ query1ADT newQueryQ1(ERROR_CODE * status);
         @param m: Puntero a la estructura de una pelicula/serie
         @param status: Setea el flag con algun valor del enum ERROR_CODE en caso de error en ejecucion
  */
-void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status);
+void insertQ1(query1ADT q, Entry * m, ERROR_CODE * status);
 
 
 /*

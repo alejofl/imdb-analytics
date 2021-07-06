@@ -69,7 +69,7 @@ ERROR_CODE getlines(FILE * file) {
             char separator[2] = ";";
             int column = 1;
             ERROR_CODE err;
-            Movie * recording = malloc(sizeof(Movie));
+            Entry * recording = malloc(sizeof(Entry));
             token = strtok(s, separator);
             while (token != NULL) {
                 if (!heading) {
