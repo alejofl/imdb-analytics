@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define STR_BLOCK 5
 
