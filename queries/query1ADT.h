@@ -13,12 +13,18 @@ typedef struct dataQ1
 
 typedef struct query1CDT * query1ADT;
 
-query1ADT newQuery1(void);
+// Aclaracion: ERROR_CODE * status sirve para indicar si hubo un error al alojar espacio en el heap
 
-void insertQ1(query1ADT q, Movie m);
+// Creo un nuevo TAD del tipo de query1
+query1ADT newQuery1(ERROR_CODE * status);
 
-DataQ1 * finalVecQ1(query1ADT q);
+// Inserta una nueva pelicula o serie al TAD
+void insertQ1(query1ADT q, Movie * m, ERROR_CODE * status);
 
+// Crea el vector con todos los elementos del csv principal ya agregados al TAD
+DataQ1 * finalVecQ1(query1ADT q, ERROR_CODE * status);
+
+// Libera los recursos del TAD
 void freeQueryQ1(query1ADT q);
 
 #endif
