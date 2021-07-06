@@ -122,7 +122,6 @@ ERROR_CODE getlines(FILE * file) {
                             }
                             //TODO falta hacer esta función y despues también hacer lo del MEM_ERROR.
 //                            insertQueries(recording);
-                            puts("HOLAA8");
                             column = 1;
                             break;
                         default:
