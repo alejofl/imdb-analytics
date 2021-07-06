@@ -1,10 +1,17 @@
 #include <string.h>
+#include <stdlib.h>
 
 #ifndef __QUERIES_H__
 
 #define __QUERIES_H__
 
-typedef char * String;
+typedef char *String;
+
+// add corresponding error codes when time is correct
+typedef enum
+{
+    MEM_ERROR = 1
+} ERROR_CODE;
 
 /*
 titleType: si corresponde a una película, serie de televisión, etc
