@@ -29,7 +29,6 @@ query3ADT newQuery3(ERROR_CODE * err) {
     return q;
 }
 
-//TODO En esta func hay codigo repetido. Alguno se da cuenta como modularizarlo? A mi no se me ocurre :(
 static Year * insertYearRec(Year * list, Entry * m, ERROR_CODE * err, int * flag) {
     //Caso 1: no hay nada en la lista o no está el año -> esa va a ser la entrada con más votos hasta ahora
     if (list == NULL || list->year < m->startYear) {
@@ -41,24 +40,20 @@ static Year * insertYearRec(Year * list, Entry * m, ERROR_CODE * err, int * flag
         }
         newNode->year = m->startYear;
         if (strcasecmp("movie", m->titleType) == 0) {
-            errno = 0;
-            list->maxMovie.title = realloc(list->maxMovie.title, strlen(m->primaryTitle) + 1);
-            if (errno == ENOMEM) {
+            list->maxMovie.title = copyStr(m->primaryTitle);
+            if (list->maxMovie.title == NULL) {
                 *err = MEM_ERROR;
                 return list;
             }
-            strcpy(list->maxMovie.title, m->primaryTitle);
             list->maxMovie.rating = m->averageRating;
             list->maxMovie.votes = m->numVotes;
             newNode->maxSerie = (Recording){.title = NULL, .rating = 0, .votes = 0};
         } else {
-            errno = 0;
-            list->maxSerie.title = realloc(list->maxSerie.title, strlen(m->primaryTitle) + 1);
-            if (errno == ENOMEM) {
+            list->maxSerie.title = copyStr(m->primaryTitle);
+            if (list->maxSerie.title == NULL) {
                 *err = MEM_ERROR;
                 return list;
             }
-            strcpy(list->maxSerie.title, m->primaryTitle);
             list->maxSerie.rating = m->averageRating;
             list->maxSerie.votes = m->numVotes;
             newNode->maxMovie = (Recording){.title = NULL, .rating = 0, .votes = 0};
@@ -72,25 +67,23 @@ static Year * insertYearRec(Year * list, Entry * m, ERROR_CODE * err, int * flag
     if (list->year == m->startYear) {
         if (strcasecmp("movie", m->titleType) == 0) {
             if (list->maxMovie.votes < m->numVotes) {
-                errno = 0;
-                list->maxMovie.title = realloc(list->maxMovie.title, strlen(m->primaryTitle) + 1);
-                if (errno == ENOMEM) {
+                free(list->maxMovie.title);
+                list->maxMovie.title = copyStr(m->primaryTitle);
+                if (list->maxMovie.title == NULL) {
                     *err = MEM_ERROR;
                     return list;
                 }
-                strcpy(list->maxMovie.title, m->primaryTitle);
                 list->maxMovie.rating = m->averageRating;
                 list->maxMovie.votes = m->numVotes;
             }
         } else {
             if (list->maxSerie.votes < m->numVotes) {
-                errno = 0;
-                list->maxSerie.title = realloc(list->maxSerie.title, strlen(m->primaryTitle) + 1);
-                if (errno == ENOMEM) {
+                free(list->maxSerie.title);
+                list->maxSerie.title = copyStr(m->primaryTitle);
+                if (list->maxSerie.title == NULL) {
                     *err = MEM_ERROR;
                     return list;
                 }
-                strcpy(list->maxSerie.title, m->primaryTitle);
                 list->maxSerie.rating = m->averageRating;
                 list->maxSerie.votes = m->numVotes;
             }
