@@ -36,6 +36,12 @@ int main(int argc, char *argv[]) {
     
     k = parseAndInsert(csv, &queries);
     handleErrors(k, &queries);
+    
+    int c = fclose(csv);
+    if (c != 0) {
+        k = FILE_ERROR;
+        handleErrors(k, &queries);
+    }
 
     k = writeAllQueries(&queries);
     handleErrors(k, &queries);

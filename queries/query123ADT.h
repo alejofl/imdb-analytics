@@ -30,6 +30,7 @@ typedef struct dataQ3{
     float serieRating;
 } DataQ3;
 
+query123ADT newQuery123(ERROR_CODE *error);
 void insertQ123(query123ADT q, Entry * m, ERROR_CODE *error);
 size_t yearCount(const query123ADT q);
 size_t genresCount(const query123ADT q);

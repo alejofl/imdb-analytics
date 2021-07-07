@@ -106,3 +106,13 @@ static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre)
 static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err) {
 
 }
+
+query123ADT newQuery123(ERROR_CODE *error)  {
+    errno = 0;
+    query123ADT q = calloc(1, sizeof(query123CDT));
+    if (errno == ENOMEM) {
+        *error = MEM_ERROR;
+        return NULL;
+    }
+    return q;
+}
