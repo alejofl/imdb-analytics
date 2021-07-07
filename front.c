@@ -253,7 +253,7 @@ ERROR_CODE loadAllQueries(Queries *q) {
     return k;
 }
 
-ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, int), FILE* file, int size, int dim) {
+ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, size_t), FILE* file, int size, size_t dim) {
     ERROR_CODE k = NO_ERROR;
     for (int i = 0; i < dim; i += 1) {
         k = write((char*)vec + i * size, file);
@@ -280,7 +280,7 @@ ERROR_CODE writeAllQueries(Queries *q) {
         return FILE_ERROR;
     }
     fprintf(file, "year;films;series\n");
-    k = writeQueryLoop(vec1, (ERROR_CODE (*) (char*, FILE *))writeQ1, (void (*)(void*, int))freeFinalVecQ1, file, sizeof(DataQ1), dim);
+    k = writeQueryLoop(vec1, (ERROR_CODE (*) (char*, FILE *))writeQ1, (void (*)(void*, size_t))freeFinalVecQ1, file, sizeof(DataQ1), dim);
     free(vec1);
     int c = fclose(file);
     if (c != 0) return FILE_ERROR;
@@ -295,7 +295,7 @@ ERROR_CODE writeAllQueries(Queries *q) {
         return FILE_ERROR;
     }
     fprintf(file, "year;genre;films\n");
-    k = writeQueryLoop(vec2, (ERROR_CODE (*) (char*, FILE *))writeQ2, (void (*)(void*, int))freeFinalVecQ2, file, sizeof(DataQ2), dim);
+    k = writeQueryLoop(vec2, (ERROR_CODE (*) (char*, FILE *))writeQ2, (void (*)(void*, size_t))freeFinalVecQ2, file, sizeof(DataQ2), dim);
     freeFinalVecQ2(vec2, dim);
     c = fclose(file);
     if (c != 0) return FILE_ERROR;
@@ -310,7 +310,7 @@ ERROR_CODE writeAllQueries(Queries *q) {
         return FILE_ERROR;
     }
     fprintf(file, "startYear;film;votesFilm;ratingFilm;serie;votesSerie;ratingSerie\n");
-    k = writeQueryLoop(vec3, (ERROR_CODE (*) (char*, FILE *))writeQ3, (void (*)(void*, int))freeFinalVecQ3, file, sizeof(DataQ3), dim);
+    k = writeQueryLoop(vec3, (ERROR_CODE (*) (char*, FILE *))writeQ3, (void (*)(void*, size_t))freeFinalVecQ3, file, sizeof(DataQ3), dim);
     freeFinalVecQ3(vec3, dim);
     c = fclose(file);
     if (c != 0) return FILE_ERROR;
@@ -325,7 +325,7 @@ ERROR_CODE writeAllQueries(Queries *q) {
         return FILE_ERROR;
     }
     fprintf(file, "startYear;primaryTitle;numVotes;averageRating\n");
-    k = writeQueryLoop(vec4, (ERROR_CODE (*) (char*, FILE *))writeQ4, (void (*)(void*, int))freeFinalVecQ4, file, sizeof(DataQ4), dim);
+    k = writeQueryLoop(vec4, (ERROR_CODE (*) (char*, FILE *))writeQ4, (void (*)(void*, size_t))freeFinalVecQ4, file, sizeof(DataQ4), dim);
     freeFinalVecQ4(vec4, dim);
     c = fclose(file);
     if (c != 0) return FILE_ERROR;

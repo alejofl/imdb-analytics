@@ -32,6 +32,6 @@ ERROR_CODE writeQ1(DataQ1* data, FILE *f); //IDEM anterior pero para query1
 ERROR_CODE writeQ3(DataQ3* data, FILE *f); //IDEM anterior pero para query3
 ERROR_CODE writeAllQueries(Queries *q);
 ERROR_CODE loadAllQueries(Queries *q);
-ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, int), FILE* file, int size, int dim);
+ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, size_t), FILE* file, int size, size_t dim);
 
 #endif
