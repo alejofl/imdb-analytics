@@ -40,22 +40,22 @@ static Year * insertYearRec(Year * list, Entry * m, ERROR_CODE * err, int * flag
         }
         newNode->year = m->startYear;
         if (strcasecmp("movie", m->titleType) == 0) {
-            list->maxMovie.title = copyStr(m->primaryTitle);
-            if (list->maxMovie.title == NULL) {
+            newNode->maxMovie.title = copyStr(m->primaryTitle);
+            if (newNode->maxMovie.title == NULL) {
                 *err = MEM_ERROR;
                 return list;
             }
-            list->maxMovie.rating = m->averageRating;
-            list->maxMovie.votes = m->numVotes;
+            newNode->maxMovie.rating = m->averageRating;
+            newNode->maxMovie.votes = m->numVotes;
             newNode->maxSerie = (Recording){.title = NULL, .rating = 0, .votes = 0};
         } else {
-            list->maxSerie.title = copyStr(m->primaryTitle);
-            if (list->maxSerie.title == NULL) {
+            newNode->maxSerie.title = copyStr(m->primaryTitle);
+            if (newNode->maxSerie.title == NULL) {
                 *err = MEM_ERROR;
                 return list;
             }
-            list->maxSerie.rating = m->averageRating;
-            list->maxSerie.votes = m->numVotes;
+            newNode->maxSerie.rating = m->averageRating;
+            newNode->maxSerie.votes = m->numVotes;
             newNode->maxMovie = (Recording){.title = NULL, .rating = 0, .votes = 0};
         }
         newNode->next = list;

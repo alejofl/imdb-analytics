@@ -2,6 +2,7 @@
 #include "colors.h"
 #include "front.h"
 
+void testingQ3();
 void testingQ4();
 
 int main(int argc, char *argv[]) {
@@ -40,12 +41,39 @@ int main(int argc, char *argv[]) {
     handleErrors(k, &queries);
 
     freeAllQueries(&queries);
-    printf("FINISHED!");
+    printf(HGRN "FINISHED! Four CSV files were saved.\n" reset);
     #endif
 
     #ifdef DEBUG
+    testingQ3();
     testingQ4();
     #endif
+}
+
+void testingQ3() {
+    Entry data = {"movie", "m1", 2021, 2022, NULL, 10.1, 100, 10000};
+    Entry data2 = {"tvSerie", "m2", 2021, 2022, NULL, 10.1, 150, 10000};
+    Entry data3 = {"movie", "m3", 1999, 2022, NULL, 10.1, 135, 10000};
+    Entry data4 = {"tvSerie", "m4", 1999, 2022, NULL, 10.1, 222, 10000};
+    Entry data5 = {"movie", "m5", 2021, 2022, NULL, 10.1, 103, 10000};
+    Entry data6 = {"tvSerie", "m6", 1999, 2022, NULL, 10.1, 225, 10000};
+
+    ERROR_CODE err = NO_ERROR;
+    query3ADT q = newQuery3(&err);
+
+    insertQ3(q, &data, &err);
+    insertQ3(q, &data2, &err);
+    insertQ3(q, &data3, &err);
+    insertQ3(q, &data4, &err);
+    insertQ3(q, &data5, &err);
+    insertQ3(q, &data6, &err);
+
+    size_t size = q3Size(q);
+    DataQ3 * vec = finalVecQ3(q, &err);
+
+
+    freeFinalVecQ3(vec, size);
+    freeQueryQ3(q);
 }
 
 void testingQ4() {
