@@ -273,8 +273,18 @@ ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
     return NO_ERROR;
 }
 
-void handleMemoryError(ERROR_CODE k) {
+void freeAllQueries(Queries * queries) {
+    freeQueryQ1(queries->q1);
+    freeQueryQ2(queries->q2);
+    freeQueryQ3(queries->q3);
+    freeQueryQ4(queries->q4);
+}
+
+void handleMemoryError(ERROR_CODE k, Queries * q) {
     if (k == MEM_ERROR) {
+        if (q != NULL) {
+            freeAllQueries(q);
+        }
         fprintf(stderr, BHRED "Something's went wrong." HRED " There's not enough memory for this request.\n" reset);
         exit(MEM_ERROR);
     }

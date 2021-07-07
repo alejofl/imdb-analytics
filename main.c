@@ -29,18 +29,18 @@ int main(int argc, char *argv[]) {
 
     ERROR_CODE k;
     query1ADT q1 = newQuery1(&k);
-    handleMemoryError(k);
+    handleMemoryError(k, NULL);
     query2ADT q2 = newQuery2(&k);
-    handleMemoryError(k);
+    handleMemoryError(k, NULL);
     query3ADT q3 = newQuery3(&k);
-    handleMemoryError(k);
+    handleMemoryError(k, NULL);
     query4ADT q4 = newQuery4(&k);
-    handleMemoryError(k);
+    handleMemoryError(k, NULL);
 
     Queries queries = {q1, q2, q3, q4};
 
     k = parseAndInsert(csv, &queries);
-    handleMemoryError(k);
+    handleMemoryError(k, &queries);
 
     #endif
 
