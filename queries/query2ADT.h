@@ -23,4 +23,6 @@ void freeQueryQ2(query2ADT q);
 
 size_t countQ2(const query2ADT q);
 
+void freeFinalVecQ2(DataQ2 * vec, int dim);
+
 #endif

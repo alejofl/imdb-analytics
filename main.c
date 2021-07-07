@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
     k = writeAllQueries(&queries);
     handleErrors(k, &queries);
 
+    freeAllQueries(&queries);
     printf("FINISHED!");
     #endif
 
@@ -48,13 +49,14 @@ int main(int argc, char *argv[]) {
 }
 
 void testingQ4() {
-    Entry data = {"movie", "hola123", 2021, 2022, NULL, 10.1, 1000000, 10000};
-    Entry data2 = {"movie", "Marcelo", 2021, 2022, NULL, 10.1, 1000001, 10000};
     ERROR_CODE err = NO_ERROR;
     query4ADT q = newQuery4(&err);
 
-    insertQ4(q, &data, &err);
-    insertQ4(q, &data2, &err);
+    for (int i = 0; i <120; i += 1) {
+        Entry data2 = {"movie", "Marcelo", 2021, 2022, NULL, i / 10.0, 1000001, 10000};
+        insertQ4(q, &data2, &err);
+    }
+
     size_t top = topCount(q);
     DataQ4* vec = finalVecQ4(q, &err);
 

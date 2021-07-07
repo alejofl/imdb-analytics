@@ -389,19 +389,19 @@ ERROR_CODE writeAllQueries(Queries *q) {
     size = countQ2(q->q2);
     file = fopen("query2.csv", "w");
     if (file == NULL) {
-        free(vec2);
+        freeFinalVecQ2(vec2, size);
         return FILE_ERROR;
     }
 
     for (int i = 0; i < size; i += 1) {
         k = writeQ2(&vec2[i], file);
         if (k != NO_ERROR) {
-            free(vec2);
+            freeFinalVecQ2(vec2, size);
             fclose(file);
             return k;
         }
     }
-    free(vec2);
+    freeFinalVecQ2(vec2, size);
     c = fclose(file);
     if (c != 0) {
         return FILE_ERROR;
@@ -414,19 +414,19 @@ ERROR_CODE writeAllQueries(Queries *q) {
     size = q3Size(q->q3);
     file = fopen("query3.csv", "w");
     if (file == NULL) {
-        free(vec3);
+        freeFinalVecQ3(vec3, size);
         return FILE_ERROR;
     }
 
     for (int i = 0; i < size; i += 1) {
         k = writeQ3(&vec3[i], file);
         if (k != NO_ERROR) {
-            free(vec3);
+            freeFinalVecQ3(vec3, size);
             fclose(file);
             return k;
         }
     }
-    free(vec3);
+    freeFinalVecQ3(vec3, size);
     c = fclose(file);
     if (c != 0) {
         return FILE_ERROR;
@@ -439,19 +439,19 @@ ERROR_CODE writeAllQueries(Queries *q) {
     size = topCount(q->q4);
     file = fopen("query4.csv", "w");
     if (file == NULL) {
-        free(vec4);
+        freeFinalVecQ4(vec4, size);
         return FILE_ERROR;
     }
 
     for (int i = 0; i < size; i += 1) {
         k = writeQ4(&vec4[i], file);
         if (k != NO_ERROR) {
-            free(vec4);
+            freeFinalVecQ4(vec4, size);
             fclose(file);
             return k;
         }
     }
-    free(vec4);
+    freeFinalVecQ4(vec4, size);
     c = fclose(file);
     if (c != 0) {
         return FILE_ERROR;

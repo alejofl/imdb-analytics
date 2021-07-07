@@ -178,6 +178,13 @@ void freeQueryQ2(query2ADT q){
     free(q);
 }
 
+void freeFinalVecQ2(DataQ2 * vec, int dim) {
+    for (int i = 0; i < dim; i += 1) {
+        free(vec[i].genre);
+    }
+    free(vec);
+}
+
 size_t countQ2(const query2ADT q){
     return q->cantGenres;
 }

@@ -17,26 +17,6 @@ debug: 	COMPILER+=$(DEBUG_COMPILER)
 debug:  OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
 debug: 	all
 
-debugQ4: COMPILER+=$(DEBUG_COMPILER)
-debugQ4: QUERY_FILES=./queries/query4ADT.c
-debugQ4: OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
-debugQ4: compile
-
-debugQ1: COMPILER+=$(DEBUG_COMPILER)
-debugQ1: QUERY_FILES=./queries/query1ADT.c
-debugQ1: OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
-debugQ1: compile
-
-debugQ2: COMPILER+=$(DEBUG_COMPILER)
-debugQ2: QUERY_FILES=./queries/query2ADT.c
-debugQ2: OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
-debugQ2: compile
-
-debugQ3: COMPILER+=$(DEBUG_COMPILER)
-debugQ3: QUERY_FILES=./queries/query3ADT.c
-debugQ3: OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
-debugQ3: compile
-
 compile:
 	$(COMPILER) -o $(OUTPUT_FILE) $(FRONTEND_FILES) $(BACKEND_FILES) $(QUERY_FILES)
 

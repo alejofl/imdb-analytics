@@ -45,6 +45,13 @@ void freeQueryQ4(query4ADT q);
 
 /*
     Obtiene la cantidad de peliculas en el top
+    @param vec vector de DataQ4
+    @param dim tamaño del vec
+*/
+void freeFinalVecQ4(DataQ4 * vec, int dim);
+
+/*
+    Obtiene la cantidad de peliculas en el top
     @param q la instancia de query4
     @return size_t cantidad de peliculas en query4 guardadas
 */

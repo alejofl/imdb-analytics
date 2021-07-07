@@ -111,6 +111,13 @@ static void freeRecQ4(Recording *rec)
     }
 }
 
+void freeFinalVecQ4(DataQ4 * vec, int dim) {
+    for (int i = 0; i < dim; i += 1) {
+        free(vec[i].title);
+    }
+    free(vec);
+}
+
 void freeQueryQ4(query4ADT q)
 {
     freeRecQ4(q->movies);
