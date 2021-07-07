@@ -47,6 +47,13 @@ DataQ1 * finalVecQ1(const query1ADT q, ERROR_CODE * status);
  */
 size_t countQ1(const query1ADT q);
 
+
+/*
+        Libera los recursos del vector final del heap
+        @param vec: El vector obtenido en finalVecQ1
+ */
+void freeFinalVecQ1(DataQ1 * vec);
+
 /*
        Libera los recursos del TAD
        @param q: La instancia de query1

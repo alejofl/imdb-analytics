@@ -2,6 +2,7 @@
 #include "colors.h"
 #include "front.h"
 
+void testingQ1();
 void testingQ2();
 void testingQ3();
 void testingQ4();
@@ -46,10 +47,71 @@ int main(int argc, char *argv[]) {
     #endif
 
     #ifdef DEBUG
+    testingQ1();
     testingQ2();
     testingQ3();
     testingQ4();
     #endif
+}
+
+void testingQ1(){
+    Entry data = {"movie", "m1", 2015, 0, NULL, 8.6, 200, 2000};
+    Entry data2 = {"movie", "m2", 2010, 0, NULL, 8.6, 200, 2000};
+    Entry data3 = {"movie", "m3", 2019, 0, NULL, 8.6, 200, 2000};
+    Entry data4 = {"movie", "m4", 2015, 0, NULL, 8.6, 200, 2000};
+    Entry data5 = {"tvSeries", "m5", 2015, 0, NULL, 8.6, 200, 2000};
+    Entry data6 = {"tvSeries", "m6", 1970, 0, NULL, 8.6, 200, 2000};
+
+    ERROR_CODE err = NO_ERROR;
+    query1ADT q1 = newQuery1(&err);
+
+    insertQ1(q1, &data, &err);
+    insertQ1(q1, &data2, &err);
+    insertQ1(q1, &data3, &err);
+    insertQ1(q1, &data4, &err);
+    insertQ1(q1, &data5, &err);
+    insertQ1(q1, &data6, &err);
+
+    size_t size = countQ1(q1);
+    DataQ1 * vec = finalVecQ1(q1, &err);
+    printf("year;films;series\n");
+    for(size_t i = 0; i < size; i++){
+        printf("%lu;%lu;%lu\n", vec[i].year, vec[i].movies, vec[i].series);
+    }
+    freeFinalVecQ1(vec);
+    freeQueryQ1(q1);
+}
+
+void testingQ2() {
+    String genero1[] = {"Drama", "Thriller", NULL};
+    String genero2[] = {"Action" , NULL};
+    String genero3[] = {"Romance" , NULL};
+    String genero4[] = {"Action",  "Romance" , NULL};
+    String genero5[] = {"Terror" , NULL};
+    String genero6[] = {"Comedia" , NULL};
+    Entry data = {"movie", "m1", 2021, 2022, genero1, 10.1, 100, 10000};
+    Entry data2 = {"tvSerie", "m2", 2021, 2022, genero2, 10.1, 150, 10000};
+    Entry data3 = {"movie", "m3", 1999, 2022, genero3, 10.1, 135, 10000};
+    Entry data4 = {"tvSerie", "m4", 1999, 2022, genero4, 10.1, 222, 10000};
+    Entry data5 = {"movie", "m5", 2021, 2022, genero5, 10.1, 103, 10000};
+    Entry data6 = {"tvSerie", "m6", 1999, 2022, genero6, 10.1, 225, 10000};
+
+    ERROR_CODE err = NO_ERROR;
+    query2ADT q = newQuery2(&err);
+
+    insertQ2(q, &data, &err);
+    insertQ2(q, &data2, &err);
+    insertQ2(q, &data3, &err);
+    insertQ2(q, &data4, &err);
+    insertQ2(q, &data5, &err);
+    insertQ2(q, &data6, &err);
+
+    size_t size = countQ2(q);
+    DataQ2 * vec = finalVecQ2(q, &err);
+
+
+    freeFinalVecQ2(vec, size);
+    freeQueryQ2(q);
 }
 
 void testingQ3() {
@@ -95,37 +157,4 @@ void testingQ4() {
     fclose(q4);
     free(vec);
     freeQueryQ4(q);
-}
-
-
-void testingQ2() {
-    String genero1[] = {"Drama", "Thriller", NULL};
-    String genero2[] = {"Action" , NULL};
-    String genero3[] = {"Romance" , NULL};
-    String genero4[] = {"Action",  "Romance" , NULL};
-    String genero5[] = {"Terror" , NULL};
-    String genero6[] = {"Comedia" , NULL};
-    Entry data = {"movie", "m1", 2021, 2022, genero1, 10.1, 100, 10000};
-    Entry data2 = {"tvSerie", "m2", 2021, 2022, genero2, 10.1, 150, 10000};
-    Entry data3 = {"movie", "m3", 1999, 2022, genero3, 10.1, 135, 10000};
-    Entry data4 = {"tvSerie", "m4", 1999, 2022, genero4, 10.1, 222, 10000};
-    Entry data5 = {"movie", "m5", 2021, 2022, genero5, 10.1, 103, 10000};
-    Entry data6 = {"tvSerie", "m6", 1999, 2022, genero6, 10.1, 225, 10000};
-
-    ERROR_CODE err = NO_ERROR;
-    query2ADT q = newQuery2(&err);
-
-    insertQ2(q, &data, &err);
-    insertQ2(q, &data2, &err);
-    insertQ2(q, &data3, &err);
-    insertQ2(q, &data4, &err);
-    insertQ2(q, &data5, &err);
-    insertQ2(q, &data6, &err);
-
-    size_t size = countQ2(q);
-    DataQ2 * vec = finalVecQ2(q, &err);
-
-
-    freeFinalVecQ2(vec, size);
-    freeQueryQ2(q);
 }

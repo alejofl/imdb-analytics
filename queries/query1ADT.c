@@ -132,6 +132,11 @@ size_t countQ1(const query1ADT q){
     return q->size;
 }
 
+// Libera los recursos del vector final del heap
+void freeFinalVecQ1(DataQ1 * vec){
+    free(vec);
+}
+
 // Libera una lista de tipo Year del heap
 static void freeQueryQ1List(Year * first){
     // Libero la lista de atras para adelante
