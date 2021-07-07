@@ -124,13 +124,21 @@ DataQ3 * finalVecQ3(query3ADT q, ERROR_CODE * err) {
         vec[i].movieVotes = auxList->maxMovie.votes;
         vec[i].serieRating = auxList->maxSerie.rating;
         vec[i].serieVotes = auxList->maxSerie.votes;
-        vec[i].movieTitle = copyStr(auxList->maxMovie.title);
+        if (auxList->maxMovie.title == NULL) {
+            vec[i].movieTitle = copyStr("\\N");
+        } else {
+            vec[i].movieTitle = copyStr(auxList->maxMovie.title);
+        }
         if (vec[i].movieTitle == NULL) {
             *err = MEM_ERROR;
             freeFinalVecQ3(vec, i-1);
             return NULL;
         }
-        vec[i].serieTitle = copyStr(auxList->maxSerie.title);
+        if (auxList->maxSerie.title == NULL) {
+            vec[i].serieTitle = copyStr("\\N");
+        } else {
+            vec[i].serieTitle = copyStr(auxList->maxSerie.title);
+        }
         if (vec[i].serieTitle == NULL) {
             *err = MEM_ERROR;
             freeFinalVecQ3(vec, i-1);
