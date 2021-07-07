@@ -38,11 +38,11 @@ query2ADT newQuery2(ERROR_CODE *error){
 }
 
 
-static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_CODE *error){
+static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_CODE *error, int idx){
     //creo una variable c para no hacer el strcasecmp varias veces
     int c;
     //Si estaba vacío o si ya tenía que estar y no está lo agrego
-    if(first == NULL || (c = strcasecmp(first->genre, m->genres[*idx])) > 0){
+    if(first == NULL || (c = strcasecmp(first->genre, m->genres[idx])) > 0){
         errno = 0;
         Genre * new = malloc(sizeof(Genre));
         //Hago las validaciones a ver si no hubo ningun problema con la memoria
@@ -50,17 +50,11 @@ static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_
             *error = MEM_ERROR;
             return first;
         }
-        //Hago el malloc con el strlen asi le guardo la memoria justa para el nombre del género
-        new->genre = malloc(strlen(m->genres[*idx]) + 1);
-        //Valido nuevamente pero esta vez para el string
-        if(errno == ENOMEM){
+        new->genre = copyStr(m->genres[idx]);
+        if(new->genre == NULL){
             *error = MEM_ERROR;
             return first;
         }
-        //copio el string de género, pongo el tail hacia el first
-        //Inicio el count en 1 ya que por lo menos tengo una película y pongo el flag
-        //added genre en 1 para ya saber que lo agregué
-        strcpy(new->genre, m->genres[*idx]);
         new->next = first;
         new->count = 1;
         *addedGenre = 1;
@@ -73,7 +67,7 @@ static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_
         return first;
     }
     //sigo buscando
-    first->next = insertGenreRec(first->next, m, addedGenre, error);
+    first->next = insertGenreRec(first->next, m, addedGenre, error, idx);
     return first;
 }
 
@@ -93,7 +87,7 @@ static Year * insertYearRec(Year * year, Entry * m, char *addedGenre, ERROR_CODE
         int i = 0;
         while (m->genres[i] != NULL)
         {
-            new->genre =  insertGenreRec(year->genre, m, addedGenre, error, &i);
+            new->genre = insertGenreRec(year->genre, m, addedGenre, error, i);
             i++;
         }
         return new;
@@ -103,7 +97,7 @@ static Year * insertYearRec(Year * year, Entry * m, char *addedGenre, ERROR_CODE
         int i = 0;
         while (m->genres[i] != NULL)
         {
-            new->genre =  insertGenreRec(year->genre, m, addedGenre, error, &i);
+            year->genre =  insertGenreRec(year->genre, m, addedGenre, error, i);
             i++;
         }
         return year;
@@ -150,6 +144,8 @@ DataQ2 * finalVecQ2(const query2ADT q, ERROR_CODE * error){
         }
         aux = aux->next;
     }
+    *error = NO_ERROR;
+    return final;
 }
 
 
@@ -180,4 +176,8 @@ void freeQueryQ2(query2ADT q){
     freeYearRec(q->years);
     //libero el tad
     free(q);
+}
+
+size_t countQ2(const query2ADT q){
+    return q->cantGenres;
 }

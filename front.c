@@ -263,3 +263,27 @@ ERROR_CODE writeQ4(DataQ4* data, FILE *f) {
     }
     return NO_ERROR;
 }
+
+ERROR_CODE writeQ2(DataQ2* data, FILE *f) {
+    int res = fprintf(f, "%lu;%s;%lu\n", data->year, data->genre, data->count);
+    if (res < 0) {
+        return FILE_ERROR;
+    }
+    return NO_ERROR;
+}
+
+ERROR_CODE writeQ1(DataQ1* data, FILE *f) {
+    int res = fprintf(f, "%lu;%lu;%lu\n", data->year, data->movies, data->series);
+    if (res < 0) {
+        return FILE_ERROR;
+    }
+    return NO_ERROR;
+}
+
+ERROR_CODE writeQ3(DataQ3* data, FILE *f) {
+    int res = fprintf(f, "%lu;%s;%lu;%f;%s;%lu;%f\n", data->year, data->movieTitle, data->movieVotes, data->movieRating, data->serieTitle, data->serieVotes, data->serieRating);
+    if (res < 0) {
+        return FILE_ERROR;
+    }
+    return NO_ERROR;
+}

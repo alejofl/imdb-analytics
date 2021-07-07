@@ -21,4 +21,6 @@ DataQ2 * finalVecQ2(const query2ADT q, ERROR_CODE *error);       // Devuelve un 
 
 void freeQueryQ2(query2ADT q);
 
+size_t countQ2(const query2ADT q);
+
 #endif
