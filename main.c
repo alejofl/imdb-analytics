@@ -2,6 +2,7 @@
 #include "colors.h"
 #include "front.h"
 #include "tests/tests.h"
+#include "tests/integration-tests.h"
 
 int main(int argc, char *argv[]) {
     #ifndef DEBUG
@@ -44,8 +45,9 @@ int main(int argc, char *argv[]) {
     #endif
 
     #ifdef DEBUG
+    integrationTestQ1("imdbv2.csv");
     // testingQ1();
-    testingQ2();
+    // testingQ2();
     // testingQ3();
     // testingQ4();
     #endif
