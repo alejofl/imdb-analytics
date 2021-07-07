@@ -24,6 +24,10 @@ typedef struct {
 
 void handleMemoryError(ERROR_CODE k);
 ERROR_CODE parseAndInsert(FILE * file, Queries * queries); // Función usada para parsear el archivo
-ERROR_CODE writeQ4(DataQ4* data, FILE *f); // Función usada para escribir el archivo. Abrir con APPEND
+ERROR_CODE insertQueries(Entry * recording, Queries * queries); //Función que llama a cada insert de los ADTs según corresponda
+ERROR_CODE writeQ4(DataQ4* data, FILE *f); // Función usada para escribir el archivo de query4.
+ERROR_CODE writeQ2(DataQ2* data, FILE *f); //IDEM anterior pero para query2
+ERROR_CODE writeQ1(DataQ1* data, FILE *f); //IDEM anterior pero para query1
+ERROR_CODE writeQ3(DataQ3* data, FILE *f); //IDEM anterior pero para query3
 
 #endif

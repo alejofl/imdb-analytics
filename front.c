@@ -188,7 +188,6 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                 ERROR_CODE err;
                 token = strtok(s, separator);
                 while (token != NULL) {
-                    //TODO aca falta chequear lo que devuelva copyStr cuando se arregle
                     switch (column) {
                         case 1:
                             recording.titleType = copyStr(token);
@@ -199,6 +198,7 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                         case 2:
                             recording.primaryTitle = copyStr(token);
                             if (recording.primaryTitle == NULL) {
+                                free(recording.titleType);
                                 return MEM_ERROR;
                             }
                             break;
@@ -217,6 +217,7 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                             {
                                 String * genres = makeGenresVector(token, &err);
                                 if (err == MEM_ERROR) {
+                                    freeRecordingStrings(&recording);
                                     return MEM_ERROR;
                                 }
                                 recording.genres = genres;
@@ -235,8 +236,11 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                                 recording.runtimeMinutes = atol(token);
                             }
                             printRec(&recording);
-                            // TODO falta hacer esta función y despues también hacer lo del MEM_ERROR.
-                            // insertQueries(&recording, queries);
+                            ERROR_CODE k = insertQueries(&recording, queries);
+                            if (k == MEM_ERROR) {
+                                freeRecordingStrings(&recording);
+                                return MEM_ERROR;
+                            }
                             break;
                         default:
                             break;
@@ -252,6 +256,22 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
     return NO_ERROR;
 }
 
+ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
+    if (strcasecmp("movie", recording->titleType) == 0) {
+        ERROR_CODE err1 = NO_ERROR, err2 = NO_ERROR, err3 = NO_ERROR, err4 = NO_ERROR;
+        if (strcasecmp("tvSeries", recording->titleType) == 0) {
+            insertQ1(queries->q1, recording, &err1);
+            insertQ3(queries->q3, recording, &err3);
+        }
+        insertQ2(queries->q2, recording, &err2);
+        insertQ4(queries->q4, recording, &err4);
+
+        if (err1 == MEM_ERROR || err2 == MEM_ERROR || err3 == MEM_ERROR || err4 == MEM_ERROR) {
+            return MEM_ERROR;
+        }
+    }
+    return NO_ERROR;
+}
 
 void handleMemoryError(ERROR_CODE k) {
     if (k == MEM_ERROR) {

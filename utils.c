@@ -12,6 +12,7 @@ String copyStr(const String from)
     {
         if (i % STR_BLOCK == 0)
         {
+            errno = 0;
             dest = realloc(dest, (i + STR_BLOCK) * sizeof(char));
             if (errno == ENOMEM)
             {
@@ -21,6 +22,7 @@ String copyStr(const String from)
         }
         dest[i] = from[i];
     }
+    errno = 0;
     dest = realloc(dest, (i + 1) * sizeof(char));
     if (errno == ENOMEM)
     {
