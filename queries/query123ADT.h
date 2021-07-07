@@ -33,6 +33,11 @@ typedef struct dataQ3{
 void insertQ123(query123ADT q, Entry * m, ERROR_CODE *error);
 size_t yearCount(const query123ADT q);
 size_t genresCount(const query123ADT q);
+void freeQuery123(query123ADT q);
+
+// ------------------------------------------------ Query 1 -------------------------------------------------------
+static void insertQ1(Year *year, Entry* entry, ERROR_CODE *err);
+
 
 /*
         Crea el vector con todos los elementos del csv principal ya agregados al TAD
@@ -48,12 +53,15 @@ DataQ1 * finalVecQ1(const query123ADT q, ERROR_CODE * status);
  */
 void freeFinalVecQ1(DataQ1 * vec);
 
+// ------------------------------------------------ Query 2 ------------------------------------------------------
+static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre);
 DataQ2 * finalVecQ2(const query123ADT q, ERROR_CODE *error);       // Devuelve un vector de estructuras de DataQ2
 void freeFinalVecQ2(DataQ2 * vec, size_t dim);
 
+
+// ------------------------------------------------ Query 3 ------------------------------------------------------
+static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err);
 DataQ3 * finalVecQ3(const query123ADT q, ERROR_CODE * err);       // Devuelve un vector de estructuras de DataQ3
 void freeFinalVecQ3(DataQ3 * vec, size_t dim);
-
-void freeQuery123(query123ADT q);
 
 #endif

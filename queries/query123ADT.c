@@ -19,8 +19,8 @@ typedef struct year
     size_t movies;      // Almacena la cantidad de pelis en un año
     size_t series;      // Almacena la cantidad de series en un año
 
-    Recording maxMovie;
-    Recording maxSerie;
+    Recording maxMovie; // Datos de la pelicula mas votada
+    Recording maxSerie; // Datos de la serie mas votada
 
     Genre * genre;
     struct year * next; // Apunta al siguiente nodo
@@ -28,23 +28,11 @@ typedef struct year
 
 typedef struct query123CDT
 {
-    size_t cantYears;
-    size_t cantGenres;        // Indica la cantidad de años registrados en el csv
-    Year * years;       // Una lista donde cada nodo reperesenta un año con su respectiva cantidad de peliculas
-                        // y series
+    size_t cantYears;   // Indica la cantidad de años registrados en el csv
+    size_t cantGenres;  // Indica la cantidad de generos en todos los años registrados en el csv
+    Year * years;       // Una lista donde cada nodo reperesenta un año
 } query123CDT;
 
-static void insertQ1(Year *year, Entry* entry, ERROR_CODE *err) {
-
-}
-
-static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre) {
-
-}
-
-static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err) {
-
-}
 
 static void insertAll(Year *year, Entry* m, ERROR_CODE *error, int *addedGenre) {
     insertQ1(year, m, error);
@@ -98,17 +86,23 @@ void insertQ123(query123ADT q, Entry * m, ERROR_CODE *error) {
 
 
 // ------------------------------------------------ Query 1 -------------------------------------------------------
+static void insertQ1(Year *year, Entry* entry, ERROR_CODE *err) {
 
+}
 
 
 
 
 
 // ------------------------------------------------ Query 2 ------------------------------------------------------
+static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre) {
 
+}
 
 
 
 
 // ------------------------------------------------ Query 3 ------------------------------------------------------
+static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err) {
 
+}
