@@ -199,7 +199,11 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                             }
                             break;
                         case 3:
-                            recording.startYear = atol(token);
+                            if(strcmp(token, "\\N") == 0){
+                                recording.startYear = 0;
+                            } else {
+                                recording.startYear = atol(token);
+                            }
                             break;
                         case 4:
                             if (strcmp(token, "\\N") == 0) {
@@ -252,7 +256,7 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
 }
 
 ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
-    if (strcasecmp("movie", recording->titleType) == 0 || strcasecmp("tvseries", recording->titleType) == 0) {
+    if ((strcasecmp("movie", recording->titleType) == 0 || strcasecmp("tvseries", recording->titleType) == 0) && recording->startYear != 0){
         ERROR_CODE err1 = NO_ERROR, err2 = NO_ERROR, err3 = NO_ERROR, err4 = NO_ERROR;
         if (strcasecmp("movies", recording->titleType) == 0) {
             insertQ2(queries->q2, recording, &err2);
