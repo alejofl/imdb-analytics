@@ -23,25 +23,23 @@ int main(int argc, char *argv[]) {
     FILE * csv;
     csv = fopen(argv[1], "r");
     if (csv == NULL) {
-        fprintf(stderr, BHRED "Something's went wrong." HRED " Couldn't open the provided file. Check if it exists and its permissions.\n" reset);
-        return FILE_ERROR;
+        handleErrors(FILE_ERROR, NULL);
     }
 
-    ERROR_CODE k;
-    query1ADT q1 = newQuery1(&k);
-    handleMemoryError(k, NULL);
-    query2ADT q2 = newQuery2(&k);
-    handleMemoryError(k, NULL);
-    query3ADT q3 = newQuery3(&k);
-    handleMemoryError(k, NULL);
-    query4ADT q4 = newQuery4(&k);
-    handleMemoryError(k, NULL);
+    ERROR_CODE k = NO_ERROR;
 
-    Queries queries = {q1, q2, q3, q4};
-
+    // Crea el objeto de queries para ser loadeado
+    Queries queries;
+    k = loadAllQueries(&queries);
+    handleErrors(k, &queries);
+    
     k = parseAndInsert(csv, &queries);
-    handleMemoryError(k, &queries);
+    handleErrors(k, &queries);
 
+    k = writeAllQueries(&queries);
+    handleErrors(k, &queries);
+
+    printf("FINISHED!");
     #endif
 
     #ifdef DEBUG
