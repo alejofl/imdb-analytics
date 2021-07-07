@@ -127,6 +127,11 @@ DataQ1 * finalVecQ1(const query1ADT q, ERROR_CODE * status){
     return vec;
 }
 
+// Devuelve la cantidad de años almacenados en el TAD
+size_t countQ1(const query1ADT q){
+    return q->size;
+}
+
 // Libera una lista de tipo Year del heap
 static void freeQueryQ1List(Year * first){
     // Libero la lista de atras para adelante

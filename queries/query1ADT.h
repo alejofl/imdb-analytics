@@ -36,9 +36,16 @@ void insertQ1(query1ADT q, Entry * m, ERROR_CODE * status);
         Crea el vector con todos los elementos del csv principal ya agregados al TAD
         @param q: La instancia de query1
         @param status: Setea el flag con algun valor del enum ERROR_CODE en caso de error en ejecucion
+        @return: El vector ordenado por año de manera descendiente
  */
 DataQ1 * finalVecQ1(const query1ADT q, ERROR_CODE * status);
 
+/*
+        Devuelve la cantidad de años almacenados en el TAD
+        @param q: La instancia de query1
+        @return: Cantidad de años
+ */
+size_t countQ1(const query1ADT q);
 
 /*
        Libera los recursos del TAD
