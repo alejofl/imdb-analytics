@@ -368,10 +368,6 @@ ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*f
     return k;
 }
 
-void freeFinalVecQ1(DataQ1 *v, int dim) {
-    free(v);
-}
-
 ERROR_CODE writeAllQueries(Queries *q) {
     ERROR_CODE k = NO_ERROR;
     FILE *file;
