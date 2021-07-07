@@ -111,7 +111,7 @@ static void freeRecQ4(Recording *rec)
     }
 }
 
-void freeFinalVecQ4(DataQ4 * vec, int dim) {
+void freeFinalVecQ4(DataQ4 * vec, size_t dim) {
     for (int i = 0; i < dim; i += 1) {
         free(vec[i].title);
     }

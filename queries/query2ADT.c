@@ -177,7 +177,7 @@ void freeQueryQ2(query2ADT q){
     free(q);
 }
 
-void freeFinalVecQ2(DataQ2 * vec, int dim) {
+void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
     for (int i = 0; i < dim; i += 1) {
         free(vec[i].genre);
     }

@@ -20,7 +20,7 @@ query3ADT newQuery3(ERROR_CODE * err);
 
 void insertQ3(query3ADT q, Entry * m, ERROR_CODE * err);
 
-void freeFinalVecQ3(DataQ3 * vec, int dim);
+void freeFinalVecQ3(DataQ3 * vec, size_t dim);
 
 DataQ3 * finalVecQ3(query3ADT q, ERROR_CODE * err);       // Devuelve un vector de estructuras de DataQ3
 

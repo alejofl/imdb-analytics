@@ -48,7 +48,7 @@ void freeQueryQ4(query4ADT q);
     @param vec vector de DataQ4
     @param dim tamaño del vec
 */
-void freeFinalVecQ4(DataQ4 * vec, int dim);
+void freeFinalVecQ4(DataQ4 * vec, size_t dim);
 
 /*
     Obtiene la cantidad de peliculas en el top

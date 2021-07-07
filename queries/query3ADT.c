@@ -102,7 +102,7 @@ void insertQ3(query3ADT q, Entry * m, ERROR_CODE * err) {
     q->size += flag;
 }
 
-void freeFinalVecQ3(DataQ3 * vec, int dim) {
+void freeFinalVecQ3(DataQ3 * vec, size_t dim) {
     for (int i = 0; i < dim; i++) {
         free(vec[i].serieTitle);
         free(vec[i].movieTitle);
