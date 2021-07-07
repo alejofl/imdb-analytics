@@ -1,6 +1,7 @@
 #include "./query4ADT.h"
 
 #define MAX 100
+#define DELTA 0.01
 #define CUTOFF 100000
 
 // organized from lowest to highest, since there is more chance of it being lower rating than higher
@@ -34,9 +35,10 @@ query4ADT newQuery4(ERROR_CODE *err)
 // it receives a pointer to the movie object so its more efficient while passing arguments between functions
 static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
 {
-    int c;
-    if (rec == NULL || (c = rec->rating - movie->averageRating) > 0 || (c == 0 && rec->votes > movie->numVotes))
+    float c;
+    if (rec == NULL || (c = rec->rating - movie->averageRating) > DELTA || ( fabs(c) <= DELTA && rec->votes > movie->numVotes))
     {
+        errno = 0;
         Recording *new = malloc(sizeof(Recording));
         String copy = copyStr(movie->primaryTitle);
         if (errno == ENOMEM)

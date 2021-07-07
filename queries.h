@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
+#include <math.h>
 
 #define STR_BLOCK 5
 
