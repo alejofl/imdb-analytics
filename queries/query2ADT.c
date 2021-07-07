@@ -135,11 +135,9 @@ DataQ2 * finalVecQ2(const query2ADT q, ERROR_CODE * error){
         Genre * auxG = aux->genre;
         //con este while recorro los generos
         while (auxG != NULL){
-            final[i] = (DataQ2) {
-                aux->year,
-                auxG->genre,
-                auxG->count
-            };
+            final[i].year = aux->year;
+            final[i].count = auxG->count;
+            final[i].genre = copyStr(auxG->genre);
             i++;
             auxG = auxG->next;
         }
@@ -156,7 +154,7 @@ static void freeGenreRec(Genre * firstG){
     //Libero el string que dice el género
     free(firstG->genre);
     //Llamo recursivamente al genero
-    free(firstG->next);
+    freeGenreRec(firstG->next);
     //libero el genero
     free(firstG);
 }
