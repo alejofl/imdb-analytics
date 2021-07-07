@@ -5,6 +5,7 @@
 
 int main(int argc, char *argv[]) {
     #ifndef DEBUG
+    printf("\n");
         printf(HYEL "██╗███╗   ███╗██████╗ ██████╗      █████╗ ███╗   ██╗ █████╗ ██╗  ██╗   ██╗███████╗██╗███████╗\n"
            "██║████╗ ████║██╔══██╗██╔══██╗    ██╔══██╗████╗  ██║██╔══██╗██║  ╚██╗ ██╔╝██╔════╝██║██╔════╝\n"
            "██║██╔████╔██║██║  ██║██████╔╝    ███████║██╔██╗ ██║███████║██║   ╚████╔╝ ███████╗██║███████╗\n"
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]) {
     handleErrors(k, &queries);
 
     freeAllQueries(&queries);
-    printf(HGRN "FINISHED! Four CSV files were saved.\n" reset);
+    printf(HGRN "FINISHED! Four CSV files were saved.\n\n" reset);
     #endif
 
     #ifdef DEBUG
