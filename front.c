@@ -50,10 +50,6 @@ String * makeGenresVector(String s, ERROR_CODE * err) {
     return rta;
 }
 
-void printRec(Entry* entry) {
-    printf("%s - %lu\n", entry->primaryTitle, entry->runtimeMinutes);
-}
-
 /*
 ERROR_CODE getlines(FILE * file, Queries * queries) {
     errno = 0;
@@ -235,7 +231,6 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
                             } else {
                                 recording.runtimeMinutes = atol(token);
                             }
-                            printRec(&recording);
                             ERROR_CODE k = insertQueries(&recording, queries);
                             if (k == MEM_ERROR) {
                                 freeRecordingStrings(&recording);
@@ -257,14 +252,14 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
 }
 
 ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
-    if (strcasecmp("movie", recording->titleType) == 0) {
+    if (strcasecmp("movie", recording->titleType) == 0 || strcasecmp("tvseries", recording->titleType) == 0) {
         ERROR_CODE err1 = NO_ERROR, err2 = NO_ERROR, err3 = NO_ERROR, err4 = NO_ERROR;
-        if (strcasecmp("tvSeries", recording->titleType) == 0) {
-            insertQ1(queries->q1, recording, &err1);
-            insertQ3(queries->q3, recording, &err3);
+        if (strcasecmp("movies", recording->titleType) == 0) {
+            insertQ2(queries->q2, recording, &err2);
+            insertQ4(queries->q4, recording, &err4);
         }
-        insertQ2(queries->q2, recording, &err2);
-        insertQ4(queries->q4, recording, &err4);
+        insertQ1(queries->q1, recording, &err1);
+        insertQ3(queries->q3, recording, &err3);
 
         if (err1 == MEM_ERROR || err2 == MEM_ERROR || err3 == MEM_ERROR || err4 == MEM_ERROR) {
             return MEM_ERROR;

@@ -34,5 +34,4 @@ ERROR_CODE writeAllQueries(Queries *q);
 ERROR_CODE loadAllQueries(Queries *q);
 ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, int), FILE* file, int size, int dim);
 
-void freeFinalVecQ1(DataQ1 *v, int dim);
 #endif

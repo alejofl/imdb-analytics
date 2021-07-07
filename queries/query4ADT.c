@@ -96,7 +96,12 @@ DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err)
     Recording *curr = q->movies;
     for (int i = q->count - 1; i >= 0; i -= 1)
     {
-        vec[i] = (DataQ4){curr->title, curr->votes, curr->rating, curr->startYear};
+        String title = copyStr(curr->title);
+        if (title == NULL) {
+            *err = MEM_ERROR;
+            return NULL;
+        }
+        vec[i] = (DataQ4){title, curr->votes, curr->rating, curr->startYear};
         curr = curr->next;
     }
     return vec;
