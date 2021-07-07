@@ -322,7 +322,7 @@ ERROR_CODE writeQ1(DataQ1* data, FILE *f) {
 }
 
 ERROR_CODE writeQ3(DataQ3* data, FILE *f) {
-    int res = fprintf(f, "%lu;%s;%lu;%f;%s;%lu;%f\n", data->year, data->movieTitle, data->movieVotes, data->movieRating, data->serieTitle, data->serieVotes, data->serieRating);
+    int res = fprintf(f, "%lu;%s;%lu;%.1f;%s;%lu;%.1f\n", data->year, data->movieTitle, data->movieVotes, data->movieRating, data->serieTitle, data->serieVotes, data->serieRating);
     if (res < 0) {
         return FILE_ERROR;
     }
