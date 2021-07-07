@@ -16,7 +16,7 @@ typedef struct query1CDT
 } query1CDT;
 
 // Creo un nuevo TAD del tipo de query1
-query1ADT newQueryQ1(ERROR_CODE * status){
+query1ADT newQuery1(ERROR_CODE * status){
     errno = 0;
     // Alojo espacio en el espacio para el TAD
     query1ADT q1 = calloc(1, sizeof(query1CDT));

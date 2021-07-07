@@ -20,7 +20,7 @@ typedef struct query1CDT * query1ADT;
         @param status: Setea el flag con algun valor del enum ERROR_CODE en caso de error en ejecucion
         @return query1ADT
  */
-query1ADT newQueryQ1(ERROR_CODE * status);
+query1ADT newQuery1(ERROR_CODE * status);
 
 
 /*

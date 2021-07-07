@@ -50,6 +50,10 @@ String * makeGenresVector(String s, ERROR_CODE * err) {
     return rta;
 }
 
+void printRec(Entry* entry) {
+    printf("%s - %lu\n", entry->primaryTitle, entry->runtimeMinutes);
+}
+
 /*
 ERROR_CODE getlines(FILE * file, Queries * queries) {
     errno = 0;
@@ -160,10 +164,10 @@ void freeRecordingStrings(Entry * recording){
     free(recording->genres);
 }
 
-ERROR_CODE getlines(FILE * file, Queries * queries) {
+ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
     Entry recording;
     errno = 0;
-    char * s = malloc(MAX_LINE);
+    char s[MAX_LINE];
     if (errno == ENOMEM) {
         return MEM_ERROR;
     }
@@ -230,6 +234,7 @@ ERROR_CODE getlines(FILE * file, Queries * queries) {
                             } else {
                                 recording.runtimeMinutes = atol(token);
                             }
+                            printRec(&recording);
                             // TODO falta hacer esta función y despues también hacer lo del MEM_ERROR.
                             // insertQueries(&recording, queries);
                             break;

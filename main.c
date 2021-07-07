@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     }
 
     ERROR_CODE k;
-    query1ADT q1 = newQueryQ1(&k);
+    query1ADT q1 = newQuery1(&k);
     handleMemoryError(k);
     query2ADT q2 = newQuery2(&k);
     handleMemoryError(k);
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 
     Queries queries = {q1, q2, q3, q4};
 
-    k = getlines(csv, &queries);
+    k = parseAndInsert(csv, &queries);
     handleMemoryError(k);
 
     #endif

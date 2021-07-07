@@ -12,6 +12,9 @@
 #include "queries/query3ADT.h"
 #include "queries/query4ADT.h"
 
+#define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
+                        // genres: 200, averageRating: 3, numVotes: 9, runtimeMinutes: 6
+
 typedef struct {
     query1ADT q1;
     query2ADT q2;
@@ -20,7 +23,7 @@ typedef struct {
 } Queries;
 
 void handleMemoryError(ERROR_CODE k);
-ERROR_CODE getlines(FILE * file, Queries * queries); // Función usada para parsear el archivo
+ERROR_CODE parseAndInsert(FILE * file, Queries * queries); // Función usada para parsear el archivo
 ERROR_CODE writeQ4(DataQ4* data, FILE *f); // Función usada para escribir el archivo. Abrir con APPEND
 
 #endif

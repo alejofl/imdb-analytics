@@ -9,8 +9,6 @@
 #include <errno.h>
 
 #define STR_BLOCK 5
-#define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
-                        // genres: 200, averageRating: 3, numVotes: 9, runtimeMinutes: 6
 
 #if DEBUG
 #include <assert.h>

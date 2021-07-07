@@ -7,15 +7,14 @@ OUTPUT_FILE=main
 OUTPUT_FILE_DEBUG=test
 CSV_OUTPUT=query4.csv query1.csv query2.csv query3.csv
 
-all: BACKEND_FILES+=$(QUERY_FILES)
 all: clean
 all: compile
 
-clean:
-	rm -r $(OUTPUT_FILE) *.o $(CSV_OUTPUT)
+clean: 
+	rm -rf $(OUTPUT_FILE) *.o $(CSV_OUTPUT)
 
 debug: 	COMPILER+=$(DEBUG_COMPILER)
-		OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
+debug:  OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
 debug: 	all
 
 debugQ4: COMPILER+=$(DEBUG_COMPILER)
