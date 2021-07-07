@@ -87,11 +87,9 @@ void testingQ4() {
 
     size_t top = topCount(q);
     DataQ4* vec = finalVecQ4(q, &err);
-
     FILE* q4 = fopen("query4.csv", "w");
-    for (int i = 0; i < top; i += 1) {
-        writeQ4(&vec[i], q4);
-    }
+    writeQueryLoop(vec, (ERROR_CODE (*) (char*, FILE *))writeQ4, (void (*)(void*, int))freeFinalVecQ4, q4, sizeof(DataQ4), top);
+    
     fclose(q4);
     free(vec);
     freeQueryQ4(q);

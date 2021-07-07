@@ -355,107 +355,82 @@ ERROR_CODE loadAllQueries(Queries *q) {
     return k;
 }
 
+ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, int), FILE* file, int size, int dim) {
+    ERROR_CODE k = NO_ERROR;
+    for (int i = 0; i < dim; i += 1) {
+        k = write((char*)vec + i * size, file);
+        if (k != NO_ERROR) {
+            freeVec(vec, dim);
+            fclose(file);
+            return k;
+        }
+    }
+    return k;
+}
+
+void freeFinalVecQ1(DataQ1 *v, int dim) {
+    free(v);
+}
+
 ERROR_CODE writeAllQueries(Queries *q) {
     ERROR_CODE k = NO_ERROR;
     FILE *file;
+
+    // Loop and Write Q1
     DataQ1* vec1 = finalVecQ1(q->q1, &k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-    size_t size = countQ1(q->q1);
+    if (k != NO_ERROR) return k;
+    size_t dim = countQ1(q->q1);
     file = fopen("query1.csv", "w");
     if (file == NULL) {
         free(vec1);
         return FILE_ERROR;
     }
-    for (int i = 0; i < size; i += 1) {
-        k = writeQ1(&vec1[i], file);
-        if (k != NO_ERROR) {
-            free(vec1);
-            fclose(file); // no hay necesidad de chequear por errores de archivo si ya esta saliendo
-            return k;
-        }
-    }
+    k = writeQueryLoop(vec1, (ERROR_CODE (*) (char*, FILE *))writeQ1, (void (*)(void*, int))freeFinalVecQ1, file, sizeof(DataQ1), dim);
     free(vec1);
     int c = fclose(file);
-    if (c != 0) {
-        return FILE_ERROR;
-    }
+    if (c != 0) return FILE_ERROR;
 
+    // Loop and Write Q2
     DataQ2* vec2 = finalVecQ2(q->q2, &k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-    size = countQ2(q->q2);
+    if (k != NO_ERROR) return k;
+    dim = countQ2(q->q2);
     file = fopen("query2.csv", "w");
     if (file == NULL) {
-        freeFinalVecQ2(vec2, size);
+        freeFinalVecQ2(vec2, dim);
         return FILE_ERROR;
     }
-
-    for (int i = 0; i < size; i += 1) {
-        k = writeQ2(&vec2[i], file);
-        if (k != NO_ERROR) {
-            freeFinalVecQ2(vec2, size);
-            fclose(file);
-            return k;
-        }
-    }
-    freeFinalVecQ2(vec2, size);
+    k = writeQueryLoop(vec2, (ERROR_CODE (*) (char*, FILE *))writeQ2, (void (*)(void*, int))freeFinalVecQ2, file, sizeof(DataQ2), dim);
+    freeFinalVecQ2(vec2, dim);
     c = fclose(file);
-    if (c != 0) {
-        return FILE_ERROR;
-    }
+    if (c != 0) return FILE_ERROR;
 
+    // Loop and Write Q3
     DataQ3* vec3 = finalVecQ3(q->q3, &k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-    size = q3Size(q->q3);
+    if (k != NO_ERROR) return k;
+    dim = q3Size(q->q3);
     file = fopen("query3.csv", "w");
     if (file == NULL) {
-        freeFinalVecQ3(vec3, size);
+        freeFinalVecQ3(vec3, dim);
         return FILE_ERROR;
     }
-
-    for (int i = 0; i < size; i += 1) {
-        k = writeQ3(&vec3[i], file);
-        if (k != NO_ERROR) {
-            freeFinalVecQ3(vec3, size);
-            fclose(file);
-            return k;
-        }
-    }
-    freeFinalVecQ3(vec3, size);
+    k = writeQueryLoop(vec3, (ERROR_CODE (*) (char*, FILE *))writeQ3, (void (*)(void*, int))freeFinalVecQ3, file, sizeof(DataQ3), dim);
+    freeFinalVecQ3(vec3, dim);
     c = fclose(file);
-    if (c != 0) {
-        return FILE_ERROR;
-    }
+    if (c != 0) return FILE_ERROR;
 
+    // Loop and Write Q4
     DataQ4* vec4 = finalVecQ4(q->q4, &k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-    size = topCount(q->q4);
+    if (k != NO_ERROR) return k;
+    dim = topCount(q->q4);
     file = fopen("query4.csv", "w");
     if (file == NULL) {
-        freeFinalVecQ4(vec4, size);
+        freeFinalVecQ4(vec4, dim);
         return FILE_ERROR;
     }
-
-    for (int i = 0; i < size; i += 1) {
-        k = writeQ4(&vec4[i], file);
-        if (k != NO_ERROR) {
-            freeFinalVecQ4(vec4, size);
-            fclose(file);
-            return k;
-        }
-    }
-    freeFinalVecQ4(vec4, size);
+    k = writeQueryLoop(vec4, (ERROR_CODE (*) (char*, FILE *))writeQ4, (void (*)(void*, int))freeFinalVecQ4, file, sizeof(DataQ4), dim);
+    freeFinalVecQ4(vec4, dim);
     c = fclose(file);
-    if (c != 0) {
-        return FILE_ERROR;
-    }
+    if (c != 0) return FILE_ERROR;
 
     return k;
 }

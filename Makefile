@@ -21,4 +21,4 @@ compile:
 	$(COMPILER) -o $(OUTPUT_FILE) $(FRONTEND_FILES) $(BACKEND_FILES) $(QUERY_FILES)
 
 clean-debug:
-	rm -r $(OUTPUT_FILE_DEBUG) *.o
+	rm -rf $(OUTPUT_FILE_DEBUG) *.o $(CSV_OUTPUT)
