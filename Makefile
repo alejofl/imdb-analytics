@@ -1,4 +1,4 @@
-COMPILER=gcc -pedantic -std=c99 -Wall -fsanitize=address 
+COMPILER=gcc -pedantic -std=c99 -Wall -fsanitize=address -lm
 DEBUG_COMPILER=-g -DDEBUG=1
 QUERY_FILES=./queries/*.c
 BACKEND_FILES=utils.c
