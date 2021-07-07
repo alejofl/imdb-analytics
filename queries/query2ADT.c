@@ -57,7 +57,7 @@ static Genre * insertGenreRec(Genre * first, Entry * m, char *addedGenre, ERROR_
         }
         new->next = first;
         new->count = 1;
-        *addedGenre = 1;
+        *addedGenre += 1;
         return new;
     }
     if( c == 0){
@@ -83,11 +83,12 @@ static Year * insertYearRec(Year * year, Entry * m, char *addedGenre, ERROR_CODE
         // inserto el nuevo año y luego le agrego el género
         new->year = m->startYear;
         new->next = year;
+        new->genre = NULL;
         //Como cada película puede tener varios generos y en el final del vector se pone un NULL voy recorriendo hasta que sea NULL
         int i = 0;
         while (m->genres[i] != NULL)
         {
-            new->genre = insertGenreRec(year->genre, m, addedGenre, error, i);
+            new->genre = insertGenreRec(new->genre, m, addedGenre, error, i);
             i++;
         }
         return new;
@@ -97,7 +98,7 @@ static Year * insertYearRec(Year * year, Entry * m, char *addedGenre, ERROR_CODE
         int i = 0;
         while (m->genres[i] != NULL)
         {
-            year->genre =  insertGenreRec(year->genre, m, addedGenre, error, i);
+            year->genre = insertGenreRec(year->genre, m, addedGenre, error, i);
             i++;
         }
         return year;
