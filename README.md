@@ -44,10 +44,10 @@ El programa creará (y en caso de existir, soobrescribirá) cuatro archivos CSV 
 
 1. **query1.csv**: Cantidad de películas y series por año, con la estructura `year;films;series`
 
-3. **query2.csv**: Cantidad de películas por año y género, con la estructura `year;genre;films`
+2. **query2.csv**: Cantidad de películas por año y género, con la estructura `year;genre;films`
 
-5. **query3.csv**: La película y serie con más votos de cada año, con la estructura `startYear;film;votesFilm;ratingFilm;serie;votesSerie;ratingSerie`
+3. **query3.csv**: La película y serie con más votos de cada año, con la estructura `startYear;film;votesFilm;ratingFilm;serie;votesSerie;ratingSerie`
 
-7. **query4.csv**: Las 100 películas con mejor calificación, con la estructura `startYear;primaryTitle;numVotes;averageRating`
+4. **query4.csv**: Las 100 películas con mejor calificación, con la estructura `startYear;primaryTitle;numVotes;averageRating`
 
 Los cuatro archivos serán guardados en el mismo directorio que el ejecutable.
