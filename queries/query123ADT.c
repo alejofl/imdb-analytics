@@ -132,7 +132,7 @@ static Genre * insertGenreRec(Genre * first, Entry * m, ERROR_CODE *error, int *
 static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre) {
     int i = 0;
     while(entry->genres[i] !=  NULL){
-            year->genre = insertGenreRec(year->genre, entry, err, addedGenre, &i);
+            year->genre = insertGenreRec(year->genre, entry, err, addedGenre, i);
     }
 }
 
@@ -143,7 +143,7 @@ void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
     free(vec);
 }
 
-static DataQ2 * finalVecQ2(const query123ADT q, ERROR_CODE * error){
+DataQ2 * finalVecQ2(const query123ADT q, ERROR_CODE * error){
    //le asigno la cantidad de memoria que va a ocupar el vector final
     //la cantidad de indices que va a tener va a ser la cantidad de generos totales
     errno = 0;
