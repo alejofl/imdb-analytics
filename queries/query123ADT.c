@@ -38,7 +38,7 @@ typedef struct query123CDT
 static void insertQ1(Year * year, Entry * entry) {
     // Si me pasan una pelicula, incremento el contador de movies
     // En caso contrario (al ya estar validado que es una pelicula o una serie), incremento el contador de series
-    if(strcasecmp(m->titleType, "movie") == 0){
+    if(strcasecmp(entry->titleType, "movie") == 0){
         year->movies++;
     } else {
         year->series++;
@@ -112,7 +112,7 @@ static Genre * insertGenreRec(Genre * first, Entry * entry, ERROR_CODE * error, 
         return first;
     }
     //sigo buscando
-    first->next = insertGenreRec(first->next, entry, addedGenre, error, idx);
+    first->next = insertGenreRec(first->next, entry, error, addedGenre, idx);
     return first;
 }
 
@@ -173,27 +173,31 @@ void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
 // Agrega los datos de la pelicula/serie a los campos utilizados por el query 1
 static void insertQ3(Year * year, Entry * entry, ERROR_CODE * error) {
     if (strcasecmp("movie", entry->titleType) == 0) {
-        if (year->maxMovie.title != NULL) {
-            free(year->maxMovie.title);
+        if (year->maxMovie.votes < entry->numVotes) {
+            if (year->maxMovie.title != NULL) {
+                free(year->maxMovie.title);
+            }
+            year->maxMovie.title = copyStr(entry->primaryTitle);
+            if (year->maxMovie.title == NULL) {
+                *error = MEM_ERROR;
+                return;
+            }
+            year->maxMovie.rating = entry->averageRating;
+            year->maxMovie.votes = entry->numVotes;
         }
-        year->maxMovie.title = copyStr(entry->primaryTitle);
-        if (year->maxMovie.title == NULL) {
-            *error = MEM_ERROR;
-            return;
-        }
-        year->maxMovie.rating = entry->averageRating;
-        year->maxMovie.votes = entry->numVotes;
     } else {
-        if (year->maxSerie.title != NULL) {
-            free(year->maxSerie.title);
+        if (year->maxSerie.votes < entry->numVotes) {
+            if (year->maxSerie.title != NULL) {
+                free(year->maxSerie.title);
+            }
+            year->maxSerie.title = copyStr(entry->primaryTitle);
+            if (year->maxSerie.title == NULL) {
+                *error = MEM_ERROR;
+                return;
+            }
+            year->maxSerie.rating = entry->averageRating;
+            year->maxSerie.votes = entry->numVotes;
         }
-        year->maxSerie.title = copyStr(entry->primaryTitle);
-        if (year->maxSerie.title == NULL) {
-            *error = MEM_ERROR;
-            return;
-        }
-        year->maxSerie.rating = entry->averageRating;
-        year->maxSerie.votes = entry->numVotes;
     }
 }
 
@@ -305,9 +309,11 @@ static void insertAll(Year * year, Entry * entry, ERROR_CODE * error, int * adde
     if (*error != NO_ERROR) {
         return;
     }
-    insertQ2(year, entry, error, addedGenre);
-    if (*error != NO_ERROR) {
-        return;
+    if (strcasecmp(entry->titleType, "movie") == 0) {
+        insertQ2(year, entry, error, addedGenre);
+        if (*error != NO_ERROR) {
+            return;
+        }
     }
     insertQ3(year, entry, error);
     if (*error != NO_ERROR) {
