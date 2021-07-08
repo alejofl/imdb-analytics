@@ -61,7 +61,6 @@ void freeFinalVecQ2(DataQ2 * vec, size_t dim);
 
 
 // ------------------------------------------------ Query 3 ------------------------------------------------------
-static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err);
 DataQ3 * finalVecQ3(const query123ADT q, ERROR_CODE * err);       // Devuelve un vector de estructuras de DataQ3
 void freeFinalVecQ3(DataQ3 * vec, size_t dim);
 

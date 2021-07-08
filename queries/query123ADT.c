@@ -80,8 +80,9 @@ void insertQ123(query123ADT q, Entry * m, ERROR_CODE *error) {
     char addedYear = 0;
 
     q->years = insertYearRec(q->years, m, error, &addedYear, &addedGenre);
-    //Aumento la cantidad de generos totales
+    //Aumento la cantidad de generos y años totales
     q->cantGenres += addedGenre;
+    q->cantYears += addedYear;
 }
 
 
@@ -103,9 +104,79 @@ static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre)
 
 
 // ------------------------------------------------ Query 3 ------------------------------------------------------
-static void insertQ3(Year *year, Entry* entry, ERROR_CODE *err) {
-
+static void insertQ3(Year * year, Entry * entry, ERROR_CODE * err) {
+    if (strcasecmp("movie", entry->titleType) == 0) {
+        if (year->maxMovie.title != NULL) {
+            free(year->maxMovie.title);
+        }
+        year->maxMovie.title = copyStr(entry->primaryTitle);
+        if (year->maxMovie.title == NULL) {
+            *err = MEM_ERROR;
+            return;
+        }
+        year->maxMovie.rating = entry->averageRating;
+        year->maxMovie.votes = entry->numVotes;
+    } else {
+        if (year->maxSerie.title != NULL) {
+            free(year->maxSerie.title);
+        }
+        year->maxSerie.title = copyStr(entry->primaryTitle);
+        if (year->maxSerie.title == NULL) {
+            *err = MEM_ERROR;
+            return;
+        }
+        year->maxSerie.rating = entry->averageRating;
+        year->maxSerie.votes = entry->numVotes;
+    }
 }
+
+void freeFinalVecQ3(DataQ3 * vec, size_t dim) {
+    for (int i = 0; i < dim; i++) {
+        free(vec[i].serieTitle);
+        free(vec[i].movieTitle);
+    }
+    free(vec);
+}
+
+DataQ3 * finalVecQ3(query123ADT q, ERROR_CODE * err) {
+    errno = 0;
+    DataQ3 * vec = malloc(q->cantYears * sizeof(DataQ3));
+    if (errno == ENOMEM) {
+        *err = MEM_ERROR;
+        return NULL;
+    }
+    Year * auxList = q->years;
+    for (int i = 0; i < q->cantYears; i++) {
+        vec[i].year = auxList->year;
+        vec[i].movieRating = auxList->maxMovie.rating;
+        vec[i].movieVotes = auxList->maxMovie.votes;
+        vec[i].serieRating = auxList->maxSerie.rating;
+        vec[i].serieVotes = auxList->maxSerie.votes;
+        if (auxList->maxMovie.title == NULL) {
+            vec[i].movieTitle = copyStr("\\N");
+        } else {
+            vec[i].movieTitle = copyStr(auxList->maxMovie.title);
+        }
+        if (vec[i].movieTitle == NULL) {
+            *err = MEM_ERROR;
+            freeFinalVecQ3(vec, i-1);
+            return NULL;
+        }
+        if (auxList->maxSerie.title == NULL) {
+            vec[i].serieTitle = copyStr("\\N");
+        } else {
+            vec[i].serieTitle = copyStr(auxList->maxSerie.title);
+        }
+        if (vec[i].serieTitle == NULL) {
+            *err = MEM_ERROR;
+            freeFinalVecQ3(vec, i-1);
+            return NULL;
+        }
+        auxList = auxList->next;
+    }
+    return vec;
+}
+// ---------------------------------------------------------------------------------------------------------------
 
 query123ADT newQuery123(ERROR_CODE *error)  {
     errno = 0;
@@ -115,4 +186,39 @@ query123ADT newQuery123(ERROR_CODE *error)  {
         return NULL;
     }
     return q;
+}
+
+size_t yearCount(const query123ADT q) {
+    return q->cantYears;
+}
+
+size_t genresCount(const query123ADT q) {
+    return q->cantGenres;
+}
+
+static void freeGenreRec(Genre * firstG){
+    if (firstG == NULL)
+        return;
+    //Libero el string que dice el género
+    free(firstG->genre);
+    //Llamo recursivamente al genero
+    freeGenreRec(firstG->next);
+    //libero el genero
+    free(firstG);
+}
+
+static void freeYearRec(Year * year){
+    if (year == NULL) {
+        return;
+    }
+    freeGenreRec(year->genre);
+    free(year->maxMovie.title);
+    free(year->maxSerie.title);
+    freeYearRec(year->next);
+    free(year);
+}
+
+void freeQuery123(query123ADT q) {
+    freeYearRec(q->years);
+    free(q);
 }
