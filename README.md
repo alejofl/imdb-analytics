@@ -51,3 +51,11 @@ El programa creará (y en caso de existir, soobrescribirá) cuatro archivos CSV 
 4. **query4.csv**: Las 100 películas con mejor calificación, con la estructura `startYear;primaryTitle;numVotes;averageRating`
 
 Los cuatro archivos serán guardados en el mismo directorio que el ejecutable.
+
+## Limpiar luego de ejecución
+
+Ejecutando el siguiente comando en la terminal, libera los archivos creados por `make all`:
+
+```asm
+make clean-all
+```
