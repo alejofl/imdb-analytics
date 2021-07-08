@@ -7,18 +7,17 @@
 
 #include "queries.h"
 #include "colors.h"
-#include "queries/query1ADT.h"
-#include "queries/query2ADT.h"
-#include "queries/query3ADT.h"
+#include "queries/query123ADT.h"
+// #include "queries/query1ADT.h"
+// #include "queries/query2ADT.h"
+// #include "queries/query3ADT.h"
 #include "queries/query4ADT.h"
 
 #define MAX_LINE 360    // titleType: 25, primaryTitle: 100, startYear: 4, endYear: 4,
                         // genres: 200, averageRating: 3, numVotes: 9, runtimeMinutes: 6
 
 typedef struct {
-    query1ADT q1;
-    query2ADT q2;
-    query3ADT q3;
+    query123ADT q1;
     query4ADT q4;
 } Queries;
 

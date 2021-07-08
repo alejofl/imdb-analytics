@@ -158,15 +158,13 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
 
 ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
     if (recording->startYear != 0 && (strcasecmp("movie", recording->titleType) == 0 || strcasecmp("tvseries", recording->titleType) == 0)){
-        ERROR_CODE err1 = NO_ERROR, err2 = NO_ERROR, err3 = NO_ERROR, err4 = NO_ERROR;
+        ERROR_CODE err1 = NO_ERROR, err4 = NO_ERROR;
         if (strcasecmp("movie", recording->titleType) == 0) {
-            insertQ2(queries->q2, recording, &err2);
             insertQ4(queries->q4, recording, &err4);
         }
-        insertQ1(queries->q1, recording, &err1);
-        insertQ3(queries->q3, recording, &err3);
+        insertQ123(queries->q1, recording, &err1);
 
-        if (err1 == MEM_ERROR || err2 == MEM_ERROR || err3 == MEM_ERROR || err4 == MEM_ERROR) {
+        if (err1 == MEM_ERROR || err4 == MEM_ERROR) {
             return MEM_ERROR;
         }
     }
@@ -174,9 +172,7 @@ ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
 }
 
 void freeAllQueries(Queries * queries) {
-    freeQueryQ1(queries->q1);
-    freeQueryQ2(queries->q2);
-    freeQueryQ3(queries->q3);
+    freeQuery123(queries->q1);
     freeQueryQ4(queries->q4);
 }
 
@@ -231,21 +227,10 @@ ERROR_CODE writeQ3(DataQ3* data, FILE *f) {
 
 ERROR_CODE loadAllQueries(Queries *q) {
     ERROR_CODE k = NO_ERROR;
-    q->q1 = newQuery1(&k);
+    q->q1 = newQuery123(&k);
     if (k != NO_ERROR) {
         return k;
     }
-
-    q->q2 = newQuery2(&k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-
-    q->q3 = newQuery3(&k);
-    if (k != NO_ERROR) {
-        return k;
-    }
-
     q->q4 = newQuery4(&k);
     if (k != NO_ERROR) {
         return k;
@@ -273,7 +258,7 @@ ERROR_CODE writeAllQueries(Queries *q) {
     // Loop and Write Q1
     DataQ1* vec1 = finalVecQ1(q->q1, &k);
     if (k != NO_ERROR) return k;
-    size_t dim = countQ1(q->q1);
+    size_t dim = yearCount(q->q1);
     file = fopen("query1.csv", "w");
     if (file == NULL) {
         free(vec1);
@@ -286,9 +271,9 @@ ERROR_CODE writeAllQueries(Queries *q) {
     if (c != 0) return FILE_ERROR;
 
     // Loop and Write Q2
-    DataQ2* vec2 = finalVecQ2(q->q2, &k);
+    DataQ2* vec2 = finalVecQ2(q->q1, &k);
     if (k != NO_ERROR) return k;
-    dim = countQ2(q->q2);
+    dim = genresCount(q->q1);
     file = fopen("query2.csv", "w");
     if (file == NULL) {
         freeFinalVecQ2(vec2, dim);
@@ -301,9 +286,9 @@ ERROR_CODE writeAllQueries(Queries *q) {
     if (c != 0) return FILE_ERROR;
 
     // Loop and Write Q3
-    DataQ3* vec3 = finalVecQ3(q->q3, &k);
+    DataQ3* vec3 = finalVecQ3(q->q1, &k);
     if (k != NO_ERROR) return k;
-    dim = q3Size(q->q3);
+    dim = yearCount(q->q1);
     file = fopen("query3.csv", "w");
     if (file == NULL) {
         freeFinalVecQ3(vec3, dim);
