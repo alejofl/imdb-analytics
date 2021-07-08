@@ -96,8 +96,86 @@ static void insertQ1(Year *year, Entry* entry, ERROR_CODE *err) {
 
 
 // ------------------------------------------------ Query 2 ------------------------------------------------------
-static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre) {
+static Genre * insertGenreRec(Genre * first, Entry * m, ERROR_CODE *error, int *addedGenre, int idx){
+    //creo una variable c para no hacer el strcasecmp varias veces
+    int c;
+    //Si estaba vacío o si ya tenía que estar y no está lo agrego
+    if(first == NULL || (c = strcasecmp(first->genre, m->genres[idx])) > 0){
+        errno = 0;
+        Genre * new = malloc(sizeof(Genre));
+        //Hago las validaciones a ver si no hubo ningun problema con la memoria
+        if(errno == ENOMEM){
+            *error = MEM_ERROR;
+            return first;
+        }
+        new->genre = copyStr(m->genres[idx]);
+        if(new->genre == NULL){
+            *error = MEM_ERROR;
+            return first;
+        }
+        new->next = first;
+        new->count = 1;
+        *addedGenre += 1;
+        return new;
+    }
+    if( c == 0){
+        //si el género ya esta solo sumo 1 al count y addedgenre no lo toco
+        //porque lo inicialicé en 0
+        first->count++;
+        return first;
+    }
+    //sigo buscando
+    first->next = insertGenreRec(first->next, m, addedGenre, error, idx);
+    return first;
+}
 
+static void insertQ2(Year *year, Entry* entry, ERROR_CODE *err, int *addedGenre) {
+    int i = 0;
+    while(entry->genres[i] !=  NULL){
+            year->genre = insertGenreRec(year->genre, entry, err, addedGenre, &i);
+    }
+}
+
+void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
+    for (int i = 0; i < dim; i += 1) {
+        free(vec[i].genre);
+    }
+    free(vec);
+}
+
+static DataQ2 * finalVecQ2(const query123ADT q, ERROR_CODE * error){
+   //le asigno la cantidad de memoria que va a ocupar el vector final
+    //la cantidad de indices que va a tener va a ser la cantidad de generos totales
+    errno = 0;
+    DataQ2 * final = malloc(sizeof(DataQ2) * q->cantGenres);
+    if (errno == ENOMEM){
+        *error = MEM_ERROR;
+        return NULL;
+    }
+    //Creo un aux para ir recorriendo los años
+    Year * aux = q->years;
+    size_t i = 0;
+    //con el while de afuera recorro los años
+    while( aux != NULL){
+        //auxiliar para ir recorriendo los generos por año
+        Genre * auxG = aux->genre;
+        //con este while recorro los generos
+        while (auxG != NULL){
+            final[i].year = aux->year;
+            final[i].count = auxG->count;
+            final[i].genre = copyStr(auxG->genre);
+            if (final[i].genre ==  NULL){
+                freeFinalVecQ2(final, i-1);
+                *error == MEM_ERROR;
+                return NULL;
+            }
+            i++;
+            auxG = auxG->next;
+        }
+        aux = aux->next;
+    }
+    *error = NO_ERROR;
+    return final;
 }
 
 
