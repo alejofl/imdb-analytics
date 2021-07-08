@@ -73,7 +73,7 @@ void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
 
     if (q->count == MAX)
     {
-        int c = q->movies->rating - m->averageRating;
+        float c = q->movies->rating - m->averageRating;
         if (c > DELTA || ( fabs(c) <= DELTA && q->movies->votes > m->numVotes)) // dont add if its lower than the lowest movie
             return;
         Recording *aux = q->movies;
