@@ -33,62 +33,6 @@ typedef struct query123CDT
     Year * years;       // Una lista donde cada nodo reperesenta un año
 } query123CDT;
 
-
-// Se encarga de llamar a las funciones para incluir los datos que cada query necesita del entry recibido
-static void insertAll(Year * year, Entry * entry, ERROR_CODE * error, int * addedGenre) {
-    insertQ1(year, entry);
-    if (*error != NO_ERROR) {
-        return;
-    }
-    insertQ2(year, entry, error, addedGenre);
-    if (*error != NO_ERROR) {
-        return;
-    }
-    insertQ3(year, entry, error);
-    if (*error != NO_ERROR) {
-        return;
-    }
-}
-
-// Verifica si el año ya existe en la lista; si no es asi, lo agrega y luego incluye los datos de la pelicula/serie
-static Year * insertYearRec(Year * year, Entry * entry, ERROR_CODE * error, char * addedYear, int * addedGenre){
-    if (year == NULL || year->year < entry->startYear){
-        //pongo el flag para ver si hay 
-        errno = 0;
-        Year * new = calloc(1, sizeof(Year));
-        if(errno == ENOMEM){
-            *error = MEM_ERROR;
-            return year;
-        }
-        new->year = entry->startYear;
-        new->next = year;
-        *addedYear = 1;
-
-        insertAll(new, entry, error, addedGenre);
-        return new;
-    }
-    if (year->year == entry->startYear){
-        insertAll(year, entry, error, addedGenre);
-        return year;
-    }
-    // Sigo buscando el año
-    year->next = insertYearRec(year->next, entry, error, addedYear, addedGenre);
-    return year;
-}
-
-// Se encarga de agregar la pelicula/serie pasada por parametro al TAD para que luego sea utilizada por cada query
-void insertQ123(query123ADT q, Entry * entry, ERROR_CODE * error) {
-    //Me fijo si se hizo un nuevo genero
-    int addedGenre = 0;
-    char addedYear = 0;
-
-    q->years = insertYearRec(q->years, entry, error, &addedYear, &addedGenre);
-    //Aumento la cantidad de generos y años totales
-    q->cantGenres += addedGenre;
-    q->cantYears += addedYear;
-}
-
-
 // ------------------------------------------------ Query 1 -------------------------------------------------------
 // Agrega los datos de la pelicula/serie a los campos utilizados por el query 1
 static void insertQ1(Year * year, Entry * entry) {
@@ -109,7 +53,7 @@ DataQ1 * finalVecQ1(const query123ADT q, ERROR_CODE * error){
     DataQ1 * vec = malloc(q->cantYears * sizeof(DataQ1));
     // Si no fue capaz de reservar espacio, indico en el flag que hubo un error de memoria y devuelvo NULL
     if(errno == ENOMEM){
-        *status = MEM_ERROR;
+        *error = MEM_ERROR;
         return NULL;
     }
     // Asigno los datos de los nodos al vector de manera iterativa empezando por el primer elemento de la lista,
@@ -128,7 +72,7 @@ DataQ1 * finalVecQ1(const query123ADT q, ERROR_CODE * error){
         aux = aux->next;
     }
     // Si no hubo problema, mando por el flag que todo salio bien y devuelvo el vector
-    *status = NO_ERROR;
+    *error = NO_ERROR;
     return vec;
 }
 
@@ -136,8 +80,6 @@ DataQ1 * finalVecQ1(const query123ADT q, ERROR_CODE * error){
 void freeFinalVecQ1(DataQ1 * vec){
     free(vec);
 }
-
-
 
 // ------------------------------------------------ Query 2 ------------------------------------------------------
 // Se encarga de contabilizar los generos de la pelicula/serie. Si el genero aún no existia, lo agrega
@@ -178,7 +120,8 @@ static Genre * insertGenreRec(Genre * first, Entry * entry, ERROR_CODE * error, 
 static void insertQ2(Year * year, Entry * entry, ERROR_CODE * err, int * addedGenre) {
     int i = 0;
     while(entry->genres[i] !=  NULL){
-            year->genre = insertGenreRec(year->genre, entry, err, addedGenre, i);
+        year->genre = insertGenreRec(year->genre, entry, err, addedGenre, i);
+        i++;
     }
 }
 
@@ -225,7 +168,6 @@ void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
     }
     free(vec);
 }
-
 
 // ------------------------------------------------ Query 3 ------------------------------------------------------
 // Agrega los datos de la pelicula/serie a los campos utilizados por el query 1
@@ -355,4 +297,58 @@ static void freeYearRec(Year * year){
 void freeQuery123(query123ADT q) {
     freeYearRec(q->years);
     free(q);
+}
+
+// Se encarga de llamar a las funciones para incluir los datos que cada query necesita del entry recibido
+static void insertAll(Year * year, Entry * entry, ERROR_CODE * error, int * addedGenre) {
+    insertQ1(year, entry);
+    if (*error != NO_ERROR) {
+        return;
+    }
+    insertQ2(year, entry, error, addedGenre);
+    if (*error != NO_ERROR) {
+        return;
+    }
+    insertQ3(year, entry, error);
+    if (*error != NO_ERROR) {
+        return;
+    }
+}
+
+// Verifica si el año ya existe en la lista; si no es asi, lo agrega y luego incluye los datos de la pelicula/serie
+static Year * insertYearRec(Year * year, Entry * entry, ERROR_CODE * error, char * addedYear, int * addedGenre){
+    if (year == NULL || year->year < entry->startYear){
+        //pongo el flag para ver si hay
+        errno = 0;
+        Year * new = calloc(1, sizeof(Year));
+        if(errno == ENOMEM){
+            *error = MEM_ERROR;
+            return year;
+        }
+        new->year = entry->startYear;
+        new->next = year;
+        *addedYear = 1;
+
+        insertAll(new, entry, error, addedGenre);
+        return new;
+    }
+    if (year->year == entry->startYear){
+        insertAll(year, entry, error, addedGenre);
+        return year;
+    }
+    // Sigo buscando el año
+    year->next = insertYearRec(year->next, entry, error, addedYear, addedGenre);
+    return year;
+}
+
+// Se encarga de agregar la pelicula/serie pasada por parametro al TAD para que luego sea utilizada por cada query
+void insertQ123(query123ADT q, Entry * entry, ERROR_CODE * error) {
+    //Me fijo si se hizo un nuevo genero
+    int addedGenre = 0;
+    char addedYear = 0;
+
+    q->years = insertYearRec(q->years, entry, error, &addedYear, &addedGenre);
+    //Aumento la cantidad de generos y años totales
+    q->cantGenres += addedGenre;
+    q->cantYears += addedYear;
 }
