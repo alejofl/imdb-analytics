@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
     s4End = clock();
 
     printf("%-8s|%-8s|%-8s|%-8s\n", "Load", "Insert", "Write", "Free");
-    printf("%-8lu|%-8lu|%-8lu|%-8lu", s1End - s1Start, s2End - s2Start, s3End - s3Start, s4End - s4Start);
+    printf("%-8f|%-8f|%-8f|%-8f", (double)(s1End - s1Start)/CLOCKS_PER_SEC, (double)(s2End - s2Start)/CLOCKS_PER_SEC, (double)(s3End - s3Start)/CLOCKS_PER_SEC, (double)(s4End - s4Start)/CLOCKS_PER_SEC);
 
     #endif
 }
