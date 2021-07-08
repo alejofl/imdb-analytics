@@ -170,7 +170,7 @@ void freeFinalVecQ2(DataQ2 * vec, size_t dim) {
 }
 
 // ------------------------------------------------ Query 3 ------------------------------------------------------
-// Agrega los datos de la pelicula/serie a los campos utilizados por el query 1
+// Agrega los datos de la pelicula/serie a los campos utilizados por el query 3
 static void insertQ3(Year * year, Entry * entry, ERROR_CODE * error) {
     if (strcasecmp("movie", entry->titleType) == 0) {
         if (year->maxMovie.votes < entry->numVotes) {
@@ -241,7 +241,7 @@ DataQ3 * finalVecQ3(query123ADT q, ERROR_CODE * error) {
     return vec;
 }
 
-// Libera los recursos del vector final del query 2 del heap
+// Libera los recursos del vector final del query 3 del heap
 void freeFinalVecQ3(DataQ3 * vec, size_t dim) {
     for (int i = 0; i < dim; i++) {
         free(vec[i].serieTitle);

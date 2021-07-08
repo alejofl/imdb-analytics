@@ -48,7 +48,6 @@ typedef struct
     size_t runtimeMinutes;
 } Entry;
 
-// please check this function CONSIDER MOVING TO ANOTHER header file
 // if return value is NULL its because malloc and realloc failed
 // dont pass NULL to from
 String copyStr(const String from);

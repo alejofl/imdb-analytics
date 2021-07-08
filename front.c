@@ -4,6 +4,7 @@
 
 #include "front.h"
 
+// Genera un vector de Strings NULL-termianted de los géneros de una película.
 String * makeGenresVector(String s, ERROR_CODE * err) {
     String * rta = NULL;
     int i = 0, dim = 0, j;
@@ -61,6 +62,7 @@ void freeRecordingStrings(Entry * recording){
     free(recording->genres);
 }
 
+// Lee el archivo CSV original y pasa las lineas al formato de struct Entry para que el backend las utilice.
 ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
     Entry recording;
     errno = 0;
@@ -156,6 +158,7 @@ ERROR_CODE parseAndInsert(FILE * file, Queries * queries) {
     return NO_ERROR;
 }
 
+//Función encargada de llamar a los insert de los TADs según corresponda.
 ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
     if (recording->startYear != 0 && (strcasecmp("movie", recording->titleType) == 0 || strcasecmp("tvseries", recording->titleType) == 0)){
         ERROR_CODE err1 = NO_ERROR, err4 = NO_ERROR;
@@ -171,6 +174,7 @@ ERROR_CODE insertQueries(Entry * recording, Queries * queries) {
     return NO_ERROR;
 }
 
+//Función encargada de llamar a los free de los TADs
 void freeAllQueries(Queries * queries) {
     freeQuery123(queries->q1);
     freeQueryQ4(queries->q4);
@@ -192,9 +196,10 @@ void handleErrors(ERROR_CODE k, Queries * q) {
     }
 }
 
-// use pointers for struct communication between functions
-ERROR_CODE writeQ4(DataQ4* data, FILE *f) {
-    int res = fprintf(f, "%lu;%s;%lu;%.1f\n", data->startYear, data->title, data->votes, data->rating);
+// Para todas las writeQ-, utilizar punteros para la comunicación entre funciones
+
+ERROR_CODE writeQ1(DataQ1* data, FILE *f) {
+    int res = fprintf(f, "%lu;%lu;%lu\n", data->year, data->movies, data->series);
     if (res < 0) {
         return FILE_ERROR;
     }
@@ -209,14 +214,6 @@ ERROR_CODE writeQ2(DataQ2* data, FILE *f) {
     return NO_ERROR;
 }
 
-ERROR_CODE writeQ1(DataQ1* data, FILE *f) {
-    int res = fprintf(f, "%lu;%lu;%lu\n", data->year, data->movies, data->series);
-    if (res < 0) {
-        return FILE_ERROR;
-    }
-    return NO_ERROR;
-}
-
 ERROR_CODE writeQ3(DataQ3* data, FILE *f) {
     int res = fprintf(f, "%lu;%s;%lu;%.1f;%s;%lu;%.1f\n", data->year, data->movieTitle, data->movieVotes, data->movieRating, data->serieTitle, data->serieVotes, data->serieRating);
     if (res < 0) {
@@ -225,6 +222,15 @@ ERROR_CODE writeQ3(DataQ3* data, FILE *f) {
     return NO_ERROR;
 }
 
+ERROR_CODE writeQ4(DataQ4* data, FILE *f) {
+    int res = fprintf(f, "%lu;%s;%lu;%.1f\n", data->startYear, data->title, data->votes, data->rating);
+    if (res < 0) {
+        return FILE_ERROR;
+    }
+    return NO_ERROR;
+}
+
+// Función encargada de crear los ADTs
 ERROR_CODE loadAllQueries(Queries *q) {
     ERROR_CODE k = NO_ERROR;
     q->q1 = newQuery123(&k);
@@ -238,6 +244,7 @@ ERROR_CODE loadAllQueries(Queries *q) {
     return k;
 }
 
+// Función encargada de escribir los CSVs. Recibe funciones genericas de escritura (writeQ-) y liberación y un vector genérico (DataQ-)
 ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*freeVec)(void*, size_t), FILE* file, int size, size_t dim) {
     ERROR_CODE k = NO_ERROR;
     for (int i = 0; i < dim; i += 1) {
@@ -251,6 +258,7 @@ ERROR_CODE writeQueryLoop(void* vec, ERROR_CODE (*write)(char*, FILE*), void (*f
     return k;
 }
 
+// Función encargada de escribir las cuatro queries pedidas.
 ERROR_CODE writeAllQueries(Queries *q) {
     ERROR_CODE k = NO_ERROR;
     FILE *file;

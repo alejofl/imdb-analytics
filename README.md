@@ -5,8 +5,8 @@
 | Legajo | Nombre y Apellido | Usuario de Github | Nombre en Github |
 |--------|-------------------|-------------------|------------------|
 | 62293  | Federico Shih     | Federico-Shih     | sh1ft            |
-| 62317  | Mariano Agopian   | marianoagopian    |                  |
-| 62618  | Axel Preiti Tasat | AxelPreiti        | Axel Preiti Tasat|
+| 62317  | Mariano Agopian   | marianoagopian    | Mariano Agopian  |
+| 62618  | Axel Preiti Tasat | AxelPreitiT       | Axel Preiti Tasat|
 | 62622  | Alejo Flores Lucey | alejoforeslucey  | Alejo Flores Lucey |
 
 ## Compilar

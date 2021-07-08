@@ -24,6 +24,7 @@ typedef struct query4CDT
 
 query4ADT newQuery4(ERROR_CODE *err)
 {
+    errno = 0;
     query4ADT aux = calloc(1, sizeof(query4CDT));
     if (errno == ENOMEM)
     {
@@ -36,7 +37,7 @@ query4ADT newQuery4(ERROR_CODE *err)
 static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
 {
     float c;
-    if (rec == NULL || (c = rec->rating - movie->averageRating) > DELTA || ( fabs(c) <= DELTA && rec->votes > movie->numVotes))
+    if (rec == NULL || (c = rec->rating - movie->averageRating) > DELTA || ( fabs(c) <= DELTA && rec->votes >= movie->numVotes))
     {
         errno = 0;
         Recording *new = malloc(sizeof(Recording));
@@ -73,7 +74,7 @@ void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
     if (q->count == MAX)
     {
         int c = q->movies->rating - m->averageRating;
-        if (c > 0 || (c == 0 && q->movies->votes > m->numVotes)) // dont add if its lower than the lowest movie
+        if (c > DELTA || ( fabs(c) <= DELTA && q->movies->votes > m->numVotes)) // dont add if its lower than the lowest movie
             return;
         Recording *aux = q->movies;
         q->movies = aux->next;
@@ -86,8 +87,10 @@ void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
         q->count += 1;
 }
 
+//Returns vector to load query4 CSV
 DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err)
 {
+    errno = 0;
     DataQ4 *vec = malloc(sizeof(DataQ4) * q->count);
     if (errno == ENOMEM)
     {

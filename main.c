@@ -1,5 +1,3 @@
-#include "queries.h"
-#include "colors.h"
 #include "front.h"
 
 int main(int argc, char *argv[]) {
