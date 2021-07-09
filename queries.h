@@ -11,10 +11,6 @@
 
 #define STR_BLOCK 5
 
-#if DEBUG
-#include <assert.h>
-#endif
-
 typedef char * String;
 
 // add corresponding error codes when time is correct

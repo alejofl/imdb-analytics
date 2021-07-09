@@ -1,5 +1,8 @@
 #include "queries.h"
-#define STR_BLOCK 5
+
+#ifdef DEBUG
+#include <assert.h>
+#endif
 
 String copyStr(const String from)
 {

@@ -4,9 +4,6 @@
 #define DELTA 0.01
 #define CUTOFF 100000
 
-// organized from lowest to highest, since there is more chance of it being lower rating than higher
-// when it reaches 100 movies, all the movies that are lower rating are not added
-// if it has to be added, removes the lowest rating
 typedef struct recording
 {
     String title;
@@ -22,6 +19,9 @@ typedef struct query4CDT
     size_t count;
 } query4CDT;
 
+
+static void freeRecording(Recording *rec);
+
 query4ADT newQuery4(ERROR_CODE *err)
 {
     errno = 0;
@@ -33,7 +33,7 @@ query4ADT newQuery4(ERROR_CODE *err)
     return aux;
 }
 
-// it receives a pointer to the movie object so its more efficient while passing arguments between functions
+// Entry* es un pointer, para que el traspaso entre funciones no pase una copia del struct
 static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
 {
     float c;
@@ -58,14 +58,7 @@ static Recording *insertRecQ4(Recording *rec, Entry *movie, ERROR_CODE *err)
     return rec;
 }
 
-static void freeRecording(Recording *rec)
-{
-    free(rec->title);
-    free(rec);
-}
-
-// receives a movie struct and inserts it in the query ranking the top 100 highest rankings
-// when it gets to 100, it removes the last one from the ranking
+// Guarda los 100 mejores, guardando de menor a mayor. Si llega a los 100, solo guarda los que sean mayores al mas bajo.
 void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
 {
     if (strcasecmp(m->titleType, "movie") != 0 || m->numVotes < CUTOFF)
@@ -74,11 +67,11 @@ void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
     if (q->count == MAX)
     {
         float c = q->movies->rating - m->averageRating;
-        if (c > DELTA || ( fabs(c) <= DELTA && q->movies->votes > m->numVotes)) // dont add if its lower than the lowest movie
+        if (c > DELTA || ( fabs(c) <= DELTA && q->movies->votes > m->numVotes)) // Si la pelicula m no es de mayor rating que el mas bajo, no hacer nada.
             return;
         Recording *aux = q->movies;
         q->movies = aux->next;
-        freeRecording(aux); // because the rating of movie is higher, remove the first movie
+        freeRecording(aux); // Elimina la pelicula de mas bajo rating
     }
     q->movies = insertRecQ4(q->movies, m, err);
     if (*err == MEM_ERROR)
@@ -87,7 +80,7 @@ void insertQ4(query4ADT q, Entry *m, ERROR_CODE *err)
         q->count += 1;
 }
 
-//Returns vector to load query4 CSV
+// Devuelve el vector para cargar al csv
 DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err)
 {
     errno = 0;
@@ -110,6 +103,12 @@ DataQ4 *finalVecQ4(const query4ADT q, ERROR_CODE *err)
         curr = curr->next;
     }
     return vec;
+}
+
+static void freeRecording(Recording *rec)
+{
+    free(rec->title);
+    free(rec);
 }
 
 static void freeRecQ4(Recording *rec)

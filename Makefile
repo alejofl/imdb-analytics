@@ -14,13 +14,14 @@ all: compile
 clean: 
 	rm -rf $(OUTPUT_FILE) *.o $(CSV_OUTPUT)
 
-debug: 	COMPILER+=$(DEBUG_COMPILER)
-debug:  OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
+debug: 	clean-debug
+debug:	COMPILER+=$(DEBUG_COMPILER)
+debug:	OUTPUT_FILE=$(OUTPUT_FILE_DEBUG)
 debug:	BACKEND_FILES+=$(TESTS)
-debug: 	all
+debug:	compile
 
-clean-all: clean
-clean-all: clean-debug
+clean-all: 	clean
+clean-all:	clean-debug
 
 compile:
 	$(COMPILER) -o $(OUTPUT_FILE) $(FRONTEND_FILES) $(BACKEND_FILES) $(QUERY_FILES)
